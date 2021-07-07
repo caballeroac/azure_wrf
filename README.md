@@ -4,19 +4,20 @@ Objective of this repository is to deploy a HPC cluster with Azure CycleCloud an
 
 * Azure Subcription
 * Quota allocated for the specialized HPC vm HB120v3 
-* 
+* Azure NetApp Files / Azure Files (NFS) / NFS on Azure Blob / Parallel Filesystem (Lustre/GPFS/BeeGFS...)
+* Service Principal contributor role or Managed Identity permissions
 
-## Installation
+## CycleCloud
 
 TBD
 
-### 1. CycleCloud Installation and Configuration
+### 1. CycleCloud Installation
 
 
-#### 1.1 CycleCloud Installation and Configuration
+#### 1.1 CycleCloud Configuration
 
 
-### 2. Slurm 
+### 2. Slurm Cluster
 
 **cloud-init section**
 
@@ -74,6 +75,111 @@ Finally, make the last change before installing applications:
 build_stage:
     - /mnt/nvme/scratch   # Note that the directory is created with cloud-init on VM startup.
 ```
+Also change the number of threads for compilation:
+```
+build_jobs: 16
+```
+
+### 4. WRF Installation
+
+We will run WRF on the HB series so we will use one of the HB120v3 as "compilation node" to be consistent with the architecture. So first thing is to sumbit an Interactive job to allocate a node in the cluster to compile WRF and the dependencies needed:
+
+```
+screen  # Optional, but is a good practice in case
+salloc -N1 # This command will take 8-10 minutes until
+srun hostname
+ssh ip-0A060005   # Replace ip-0A060005 with the output of the srun commnad
+```
+
+Load spack environment settings:
+```
+. /shared/apps/spack/0.16.0/spack/share/spack/setup-env.sh
+```
+
+Now we can check what options are available for WRF with `spack info wrf` before we start:
+```
+Package:   wrf
+
+Description:
+    The Weather Research and Forecasting (WRF) Model is a next-generation
+    mesoscale numerical weather prediction system designed for both
+    atmospheric research and operational forecasting applications.
+
+Homepage: https://www.mmm.ucar.edu/weather-research-and-forecasting-model
+
+Maintainers: @MichaelLaufer @ptooley
+
+Tags:
+    None
+
+Preferred version:
+    4.2        https://github.com/wrf-model/WRF/archive/v4.2.tar.gz
+
+Safe versions:
+    4.2        https://github.com/wrf-model/WRF/archive/v4.2.tar.gz
+    4.0        https://github.com/wrf-model/WRF/archive/v4.0.tar.gz
+    3.9.1.1    https://github.com/wrf-model/WRF/archive/V3.9.1.1.tar.gz
+
+Variants:
+    Name [Default]            Allowed values          Description
+    ======================    ====================    ========================
+
+    build_type [dmpar]        serial, smpar,
+                              dmpar, dm+sm
+    compile_type [em_real]    em_real,
+                              em_quarter_ss,
+                              em_b_wave, em_les,
+                              em_heldsuarez,
+                              em_tropical_cyclone,
+                              em_hill2d_x,
+                              em_squall2d_x,
+                              em_squall2d_y,
+                              em_grav2d_x,
+                              em_seabreeze2d_x,
+                              em_scm_xy
+    nesting [basic]           no_nesting, basic,
+                              preset_moves,
+                              vortex_following
+    pnetcdf [on]              on, off                 Parallel IO support
+                                                      through Pnetcdf library
+
+Installation Phases:
+    configure    build    install
+
+Build Dependencies:
+    hdf5    libpng    libtool  mpi       netcdf-fortran   perl       tcsh  zlib
+    jasper  libtirpc  m4       netcdf-c  parallel-netcdf  pkgconfig  time
+
+Link Dependencies:
+    hdf5    libpng    mpi       netcdf-fortran   perl
+    jasper  libtirpc  netcdf-c  parallel-netcdf  zlib
+
+Run Dependencies:
+    None
+
+Virtual Packages:
+    None
+
+```
+
+Load gcc 9.2 compilers and OpenMPI before we start with wrf installation:
+```
+module avail
+module load gcc-9.2.0
+module load mpi/openmpi-4.1.0
+```
+
+Now install wrf application with the following options:
+```
+spack install wrf    %gcc@9.2.0 ^openmpi@4.1.0   build_type=dm+sm  
+```
+
+
+
+
+
+
+
 
 
 
