@@ -171,7 +171,7 @@ module load mpi/openmpi-4.1.0
 
 Now install wrf application with the following options:
 ```
-spack install wrf    %gcc@9.2.0 ^openmpi@4.1.0   build_type=dm+sm  
+ spack install wrf build_type=dm+sm %gcc@9.2.0 ^openmpi@4.1.0 
 ```
 
 
