@@ -166,12 +166,12 @@ Load gcc 9.2 compilers and OpenMPI before we start with wrf installation:
 ```
 module avail
 module load gcc-9.2.0
-module load mpi/openmpi-4.1.0
+module load mpi/openmpi
 ```
 
 Now install wrf application with the following options:
 ```
- spack install wrf build_type=dm+sm %gcc@9.2.0 ^openmpi@4.1.0 
+ spack install wrf %gcc@9.2.0 ^openmpi
 ```
 
 
