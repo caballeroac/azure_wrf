@@ -6,6 +6,7 @@ Objective of this repository is to deploy a HPC cluster with Azure CycleCloud an
 * Quota allocated for the specialized HPC vm HB120v3 
 * Azure NetApp Files / Azure Files (NFS) / NFS on Azure Blob / Parallel Filesystem (Lustre/GPFS/BeeGFS...)
 * Service Principal contributor role or Managed Identity permissions
+* TBD
 
 ## CycleCloud
 
@@ -13,11 +14,13 @@ TBD
 
 ### 1. CycleCloud Installation
 
-
+TBD 
 #### 1.1 CycleCloud Configuration
 
+TBD
 
 ### 2. Slurm Cluster
+
 
 **cloud-init section**
 
@@ -171,7 +174,7 @@ module load mpi/openmpi
 
 Now install wrf application with the following options:
 ```
- spack install wrf %gcc@9.2.0 ^openmpi
+ spack install wrf %gcc@9.2.0 ^openmpi    # Note that could take few hours to install and compile all dependencies.
 ```
 
 
