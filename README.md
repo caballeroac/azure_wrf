@@ -33,6 +33,8 @@ sudo yum -y groupinstall "Development Tools"
 sudo yum -y install python-pathlib
 sudo yum -y install screen
 sudo yum -y install clang
+sudo yum -y install python3
+
 if [[ -e /dev/nvme0n1 ]]; then
   # Setup RAID0 on HBv3 NVMe disks:
   mdadm --create --verbose /dev/md0 --level=stripe --raid-devices=2 /dev/nvme0n1 /dev/nvme1n1
