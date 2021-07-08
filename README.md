@@ -205,7 +205,20 @@ spack install wrf %gcc@9.2.0 ^openmpi@4.1.0
 ```
 
 Now WRF should be available in the modules:
+```
+[azureuser@ip-0A060007 wrf]$ spack find wrf
+==> 1 installed package
+-- linux-centos7-zen2 / gcc@9.2.0 -------------------------------
+wrf@4.2
 
+$ spack load wrf@4.2
+
+# Locate and go to WRF installation directory
+$ spack cd -i wrf@4.2
+$ pwd
+$ ls -l ./main/wrf.exe
+-rwxr-xr-x. 1 azureuser azureuser 46545352 Jul  8 16:50 ./main/wrf.exe
+```
 
 
 
