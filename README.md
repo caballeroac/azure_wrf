@@ -177,6 +177,25 @@ Now install wrf application with the following options:
  spack install wrf %gcc@9.2.0 ^openmpi    # Note that could take few hours to install and compile all dependencies.
 ```
 
+ERROR:
+
+```
+==> wrf: Executing phase: 'configure'
+==> Error: IOError: [Errno 11] Resource temporarily unavailable
+
+/shared/apps/spack/0.16.0/spack/var/spack/repos/builtin/packages/wrf/package.py:257, in configure:
+        254        stallcounter = 0
+        255        outputbuf = ""
+        256        while True:
+  >>    257            line = p.stderr.readline().decode()
+        258            if not line:
+        259                line = p.stdout.readline().decode()
+        260            if not line:
+
+See build log for details:
+  /mnt/nvme/scratch/azureuser/spack-stage-wrf-4.2-vt7s2s4rqchatv23dyxheclmiyosc62q/spack-build-out.txt![image](https://user-images.githubusercontent.com/34766525/124930812-8cfa5980-dff9-11eb-96ed-fe6bfe4b91e4.png)
+
+```
 
 
 
