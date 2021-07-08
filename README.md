@@ -170,16 +170,16 @@ Load gcc 9.2 compilers and OpenMPI before we start with wrf installation:
 module avail
 module load gcc-9.2.0
 module load mpi/openmpi
+
+# spack external find (optional)
 ```
 
 Now install wrf application with the following options:
 ``` 
 alias python='/usr/bin/python3.6'
-spack install wrf %gcc@9.2.0 ^openmpi    # Note that could take few hours to install and compile all dependencies.
+spack install wrf %gcc@9.2.0 ^openmpi@4.1.0    # Note that could take few hours to install and compile all dependencies.
 ```
-
-ERROR:
-
+It will give a error in line 292 when building. There is a bug in the WRF version, just replace the lines as indicated below:
 ```
          # num of compile jobs capped at 20 in wrf
 -        num_jobs = str(min(int(make_jobs, 10)))
@@ -188,7 +188,23 @@ ERROR:
          # Now run the compile script and track the output to check for
          # failure/success We need to do this because upstream use `make -i -k`
 ```
+Ammend in the same file in line 282
+```
+result_buf = csh( 
+     "./compile", 
+     "-j", 
+     num_jobs, 
+     self.spec.variants["compile_type"].value, 
+     output=str, 
+     error=str 
+ ) 
+```
+Finally run again the command to install spack: 
+```
+spack install wrf %gcc@9.2.0 ^openmpi@4.1.0
+```
 
+Now WRF should be available in the modules:
 
 
 
