@@ -94,9 +94,14 @@ We will run WRF on the HB series so we will use one of the HB120v3 as "compilati
 
 ```
 screen  # Optional, but is a good practice in case
+
+# With Slurm 
 salloc -N1 # This command will take 8-10 minutes until
 srun hostname
 ssh ip-0A060005   # Replace ip-0A060005 with the output of the srun commnad
+
+# With PBSPro
+qsub -I -q workq
 ```
 
 Load spack environment settings:
