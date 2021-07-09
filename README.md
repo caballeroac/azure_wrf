@@ -1,5 +1,8 @@
 # Running WRF with CycleCloud
 Objective of this repository is to deploy a HPC cluster with Azure CycleCloud and run WRF.
+
+* Architecture
+
 ## Pre-requisites
 
 * Azure Subcription
@@ -19,7 +22,7 @@ TBD
 
 TBD
 
-### 2. Slurm Cluster
+### 2. HPC Cluster
 
 
 **cloud-init section**
@@ -206,7 +209,7 @@ Finally run again the command to install spack:
 spack install wrf %gcc@9.2.0 ^openmpi@4.1.0
 ```
 
-Now WRF should be available in the modules:
+Now WRF should be available in the modules/spack:
 ```
 [azureuser@ip-0A060007 wrf]$ spack find wrf
 ==> 1 installed package
