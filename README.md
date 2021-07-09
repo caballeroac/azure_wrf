@@ -230,6 +230,12 @@ $ ls -l ./main/wrf.exe
 -rwxr-xr-x. 1 azureuser azureuser 46545352 Jul  8 16:50 ./main/wrf.exe
 ```
 
+#### Benchmarks
+The Conus 2.5Km test is available from www2.mmm.ucar.edu 
+```
+wget https://www2.mmm.ucar.edu/wrf/src/conus2.5km.tar.gz
+```
+
 
 
 
