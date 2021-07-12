@@ -2,7 +2,7 @@
 Objective of this repository is to deploy a HPC cluster with Azure CycleCloud and run WRF.
 
 * Architecture
-![Architecture](../images/Image1.JPG)
+![Architecture](./images/Image1.JPG)
 
 
 ## Pre-requisites
