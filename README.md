@@ -239,7 +239,21 @@ wget https://www2.mmm.ucar.edu/wrf/src/conus2.5km.tar.gz
 ```
 
 
+### WRF 3.9.1 ####
+```
+spack load  parallel-netcdf
+NETCDF=`spack location -i parallel-netcdf`
+export NETCDF=$NETCDF/bin
 
+spack load jasper
+JASPER=`spack location -i jasper`
+export JASPERLIB=$JASPER/lib64
+export JASPERINC=$JASPER/include
+
+$JASPERLIB or $JASPERINC not found in environment. Using default values for library paths..
+
+
+```
 
 
 
