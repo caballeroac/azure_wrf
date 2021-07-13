@@ -259,6 +259,8 @@ export JASPERINC=$JASPER/include
 
 $JASPERLIB or $JASPERINC not found in environment. Using default values for library paths..
 
+spack install wps@3.9.1 %gcc@9.2.0 ^openmpi@4.1.0
+
 
 ```
 
