@@ -39,6 +39,7 @@ sudo yum -y install python-pathlib
 sudo yum -y install screen
 sudo yum -y install clang
 sudo yum -y install python3
+sudo yum -y install tcsh
 
 if [[ -e /dev/nvme0n1 ]]; then
   # Setup RAID0 on HBv3 NVMe disks:
@@ -241,6 +242,12 @@ wget https://www2.mmm.ucar.edu/wrf/src/conus2.5km.tar.gz
 
 ### WRF 3.9.1 ####
 ```
+
+LC_CTYPE="en_US.UTF-8"
+LC_ALL="en_US.UTF-8"
+LANG="en_US.UTF-8"
+
+
 spack load  parallel-netcdf
 NETCDF=`spack location -i parallel-netcdf`
 export NETCDF=$NETCDF/bin
