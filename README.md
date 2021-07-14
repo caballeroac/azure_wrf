@@ -266,6 +266,7 @@ spack install wps@3.9.1 %gcc@9.2.0 ^openmpi@4.1.0
 #### New x86_64 compilation 
 ```
 spack uninstall -a target=x86_64
+#spack uninstall -a target=zen2
 . /shared/apps/spack/0.16.0/spack/share/spack/setup-env.sh
 module purge
 spack clean --all
@@ -277,10 +278,13 @@ sudo yum -y install tmux scl file gcc gcc-gfortran gcc-c++ glibc.i686 libgcc.i68
   ImageMagick sudo epel-release git
   
 module load gcc-9.2.0
-module load mpi/openmpi-4.1.0  
+module load mpi/openmpi
 
-spack install hdf5+fortran+hl %gcc@9.2.0 ^openmpi@4.1.0
-spack install netcdf-fortran ^hdf5+fortran+hl %gcc@9.2.0 ^openmpi@4.1.0
+spack install hdf5+fortran+hl %gcc@9.2.0 ^openmpi
+module load hdf5-1.10.7-gcc-9.2.0-ecjkzyn
+spack install netcdf-fortran ^hdf5+fortran+hl %gcc@9.2.0 ^openmpi
+
+
 
 ```
 
