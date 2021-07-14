@@ -261,8 +261,29 @@ $JASPERLIB or $JASPERINC not found in environment. Using default values for libr
 
 spack install wps@3.9.1 %gcc@9.2.0 ^openmpi@4.1.0
 
+```
+
+#### New x86_64 compilation 
+```
+spack uninstall -a target=x86_64
+. /shared/apps/spack/0.16.0/spack/share/spack/setup-env.sh
+module purge
+spack clean --all
+
+
+sudo yum -y install tmux scl file gcc gcc-gfortran gcc-c++ glibc.i686 libgcc.i686 libpng-devel jasper \
+  jasper-devel hostname m4 make perl tar bash tcsh time wget which zlib zlib-devel \
+  openssh-clients openssh-server net-tools fontconfig libgfortran libXext libXrender \
+  ImageMagick sudo epel-release git
+  
+module load gcc-9.2.0
+module load mpi/openmpi-4.1.0  
+
+spack install hdf5+fortran+hl %gcc@9.2.0 ^openmpi@4.1.0
+spack install netcdf-fortran ^hdf5+fortran+hl %gcc@9.2.0 ^openmpi@4.1.0
 
 ```
+
 
 
 
