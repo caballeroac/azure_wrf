@@ -284,10 +284,23 @@ spack install hdf5+fortran+hl %gcc@9.2.0 ^openmpi
 module load hdf5-1.10.7-gcc-9.2.0-ecjkzyn
 spack install netcdf-fortran ^hdf5+fortran+hl %gcc@9.2.0 ^openmpi
 
+module load netcdf-c-4.7.4-gcc-9.2.0-xsf3sp2
+module load netcdf-fortran-4.5.3-gcc-9.2.0-nycl2jv
+
+```
+Environment Settings:
+
+```
+export PATH=$(spack location -i netcdf-c)/bin:$PATH
+export PATH=$(spack location -i netcdf-fortran)/bin:$PATH
+export NETCDF=$(spack location -i netcdf-fortran)
+export HDF5=$(spack location -i hdf5)
+export LD_LIBRARY_PATH=$HDF5/lib:$NETCDF/lib:$LD_LIBRARY_PATH
+NETCDF_C=$(spack location -i netcdf-c)
+
 
 
 ```
-
 
 
 
