@@ -321,7 +321,7 @@ $ cd $HOME/wrfpoc/zen3/Build_WRF
 $ mkdir LIBRARIES
 
 $ cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES
-wget http://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/mpich-3.0.4.tar.gz 
+wget https://download.open-mpi.org/release/open-mpi/v4.1/openmpi-4.1.0.tar.gz
 wget http://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/netcdf-4.1.3.tar.gz 
 wget http://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/jasper-1.900.1.tar.gz 
 wget http://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/libpng-1.2.50.tar.gz 
@@ -356,8 +356,10 @@ $ ./configure --prefix=$DIR/netcdf --disable-dap --disable-netcdf-4 --disable-sh
 $ make
 $ make install
 
-# openMPI  --> No need to compile libraries
-$ module load mpi/openmpi
+# openMPI
+$ cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES
+$  tar zxvf openmpi-4.1.0.tar.gz
+# $ module load mpi/openmpi
 
 # zlib
 $ cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES
