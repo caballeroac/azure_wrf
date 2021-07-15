@@ -336,6 +336,7 @@ export FCFLAGS=-m64
 export F77=gfortran
 export FFLAGS=-m64
 
+export PATH=$DIR/openmpi/bin:$PATH
 export PATH=$DIR/netcdf/bin:$PATH
 export NETCDF=$DIR/netcdf
 export LDFLAGS=-L$DIR/grib2/lib
@@ -358,8 +359,10 @@ $ make install
 
 # openMPI
 $ cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES
-$  tar zxvf openmpi-4.1.0.tar.gz
-# $ module load mpi/openmpi
+$ tar zxvf openmpi-4.1.0.tar.gz
+$ cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES/openmpi-4.1.0
+$ ./configure --prefix=$DIR/openmpi 
+$ make all install
 
 # zlib
 $ cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES
