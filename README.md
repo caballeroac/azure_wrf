@@ -41,6 +41,8 @@ sudo yum -y install clang
 sudo yum -y install python3
 sudo yum -y install tcsh
 
+
+
 if [[ -e /dev/nvme0n1 ]]; then
   # Setup RAID0 on HBv3 NVMe disks:
   mdadm --create --verbose /dev/md0 --level=stripe --raid-devices=2 /dev/nvme0n1 /dev/nvme1n1
@@ -328,6 +330,123 @@ setenv NETCDF_C `spack location -i netcdf-c`
 
 ```
 
+### WRF 3.9.1 Compile 
+
+```
+$ screen 
+$ qsub -I -q workq
+
+$ sudo yum -y install tmux scl file gcc gcc-gfortran gcc-c++ glibc.i686 libgcc.i686 libpng-devel jasper \
+  jasper-devel hostname m4 make perl tar bash time wget which zlib zlib-devel \
+  openssh-clients openssh-server net-tools fontconfig libgfortran libXext libXrender \
+  ImageMagick sudo epel-release git
+  
+# COMPILERS TESTS
+
+$ mkdir -p $HOME/wrfpoc/zen3/Build_WRF
+$ mkdir -p $HOME/wrfpoc/zen3/TESTS
+
+$ module avail
+$ module load gcc-9.2.0
+
+$ which gfortran
+/opt/gcc-9.2.0/bin/gfortran
+$ which cpp
+/opt/gcc-9.2.0/bin/cpp
+$ which gcc
+/opt/gcc-9.2.0/bin/gcc
+
+$ gcc --version
+gcc (GCC) 9.2.0
+Copyright (C) 2019 Free Software Foundation, Inc.
+This is free software; see the source for copying conditions.  There is NO
+warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+$ cd $HOME/wrfpoc/zen3/TESTS
+$ wget http://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_tests.tar
+$ tar -xvf Fortran_C_tests.tar
+
+# Test 1
+$ gfortran TEST_1_fortran_only_fixed.f
+$ ./a.out
+SUCCESS test 1 fortran only fixed format
+
+# Test 2
+$ gfortran TEST_2_fortran_only_free.f90
+$ ./a.out
+Assume Fortran 2003: has FLUSH, ALLOCATABLE, derived type, and ISO C Binding
+SUCCESS test 2 fortran only free format
+
+# Test 3
+$ gcc TEST_3_c_only.c
+$ ./a.out
+SUCCESS test 3 c only
+
+# Test 4
+$ gcc -c -m64 TEST_4_fortran+c_c.c
+$ gfortran -c -m64 TEST_4_fortran+c_f.f90
+$ gfortran -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
+$ ./a.out
+C function called by Fortran 
+Values are xx = 2.00 and ii = 1
+SUCCESS test 4 fortran calling c
+
+# Test 5
+$ csh ./TEST_csh.csh
+SUCCESS csh test
+
+# Test 6
+$ ./TEST_perl.pl
+SUCCESS perl test
+
+# Test 7
+$ ./TEST_sh.sh
+SUCCESS sh test
+
+
+# BUILDING LIBRARIES
+$ cd $HOME/wrfpoc/zen3/Build_WRF
+$ mkdir LIBRARIES
+
+$ cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES
+wget http://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/mpich-3.0.4.tar.gz 
+wget http://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/netcdf-4.1.3.tar.gz 
+wget http://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/jasper-1.900.1.tar.gz 
+wget http://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/libpng-1.2.50.tar.gz 
+wget http://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/zlib-1.2.7.tar.gz
+
+$ vi ~/.bashrc
+export DIR=$HOME/wrfpoc/zen3/Build_WRF/LIBRARIES
+export CC=gcc
+export CXX=g++
+export FC=gfortran
+export FCFLAGS=-m64
+export F77=gfortran
+export FFLAGS=-m64
+
+export PATH=$DIR/netcdf/bin:$PATH
+export NETCDF=$DIR/netcdf
+export LDFLAGS=-L$DIR/grib2/lib
+export CPPFLAGS=-I$DIR/grib2/include
+export JASPERLIB=$DIR/grib2/lib
+export JASPERINC=$DIR/grib2/include
+
+$ source ~/.bashrc
+
+# netcdf
+$ tar zxvf netcdf-4.1.3.tar.gz
+$ cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES/netcdf-4.1.3
+$ ./configure --prefix=$DIR/netcdf --disable-dap --disable-netcdf-4 --disable-shared
+$ make
+$ make install
+
+
+
+
+
+
+
+```
 
 
 
