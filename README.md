@@ -323,9 +323,12 @@ $ mkdir LIBRARIES
 $ cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES
 wget https://download.open-mpi.org/release/open-mpi/v4.1/openmpi-4.1.0.tar.gz
 wget http://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/netcdf-4.1.3.tar.gz 
-wget http://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/jasper-1.900.1.tar.gz 
-wget http://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/libpng-1.2.50.tar.gz 
+# wget http://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/jasper-1.900.1.tar.gz 
+wget https://github.com/jasper-software/jasper/releases/download/version-2.0.32/jasper.tar.gz
+wget http://prdownloads.sourceforge.net/libpng/libpng-1.6.37.tar.gz?download
 wget http://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/zlib-1.2.7.tar.gz
+# wget http://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/libpng-1.2.50.tar.gz 
+wget https://github.com/westes/flex/archive/refs/tags/v2.6.4.tar.gz
 
 $ vi ~/.bashrc
 export DIR=$HOME/wrfpoc/zen3/Build_WRF/LIBRARIES
@@ -375,21 +378,25 @@ $ cd ..
 
 # libpng
 $ cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES
-$ tar -zxvf libpng-1.2.50.tar.gz
-$ cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES/libpng-1.2.50
+$ mv libpng-1.6.37.tar.gz\?download libpng-1.6.37.tar.gz
+$ tar -zxvf libpng-1.6.37.tar.gz
+$ cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES/libpng-1.6.37
 $ ./configure --prefix=$DIR/grib2
 $ make
 $ make install
 $ cd ..
 
+
 #JasPer
 $ cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES
 $ tar -zxvf jasper-1.900.1.tar.gz
-$ cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES/jasper-1.900.1
+$ cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES/jasper-1.900.1 jasper-2.0.32
 $ ./configure --prefix=$DIR/grib2
 $ make
 $ make install
 $ cd ..
+
+
 
 # Libraries compatibility tests
 $ cd $HOME/wrfpoc/zen3/TESTS
