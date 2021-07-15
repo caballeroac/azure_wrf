@@ -299,8 +299,35 @@ export LD_LIBRARY_PATH=$HDF5/lib:$NETCDF/lib:$LD_LIBRARY_PATH
 NETCDF_C=$(spack location -i netcdf-c)
 
 
+setenv HFD5 /shared/apps/spack/hbv2/linux-centos7-zen2/gcc-9.2.0/hdf5-1.10.7-ecjkzyn65ypusunibu7uxffvdiqhqnmm
+setenv NETCDF /shared/apps/spack/hbv2/linux-centos7-zen2/gcc-9.2.0/netcdf-fortran-4.5.3-nycl2jvt53u6bzgjrocfbgc2iaj2cwaf
+
+setenv PATH $PATH\:`spack location -i netcdf-c`
+setenv PATH $PATH\:`spack location -i netcdf-fortran`
+setenv NETCDF_C `spack location -i netcdf-c`
+
 
 ```
+
+
+#### TEST
+```
+qsub -I -q workq
+csh
+source /shared/apps/spack/0.16.0/spack/share/spack/setup-env.csh
+
+module load gcc-9.2.0
+module load mpi/openmpi
+module load hdf5-1.10.7-gcc-9.2.0-ecjkzyn
+module load netcdf-c-4.7.4-gcc-9.2.0-xsf3sp2
+module load netcdf-fortran-4.5.3-gcc-9.2.0-nycl2jv
+
+setenv PATH $PATH\:`spack location -i netcdf-c`
+setenv PATH $PATH\:`spack location -i netcdf-fortran`
+setenv NETCDF_C `spack location -i netcdf-c`
+
+```
+
 
 
 
