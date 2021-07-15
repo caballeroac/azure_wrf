@@ -440,13 +440,76 @@ $ ./configure --prefix=$DIR/netcdf --disable-dap --disable-netcdf-4 --disable-sh
 $ make
 $ make install
 
+# openMPI  --> No need to compile libraries
+$ module load mpi/openmpi
+
+# zlib
+$ cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES
+$ tar -zxvf zlib-1.2.7.tar.gz
+$ cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES/zlib-1.2.7
+$ ./configure --prefix=$DIR/grib2
+$ make
+$ make install
+$ cd ..
+
+# libpng
+$ cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES
+$ tar -zxvf libpng-1.2.50.tar.gz
+$ cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES/libpng-1.2.50
+$ ./configure --prefix=$DIR/grib2
+$ make
+$ make install
+$ cd ..
+
+#JasPer
+$ cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES
+$ tar -zxvf jasper-1.900.1.tar.gz
+$ cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES/jasper-1.900.1
+$ ./configure --prefix=$DIR/grib2
+$ make
+$ make install
+$ cd ..
+
+# Libraries compatibility tests
+$ cd $HOME/wrfpoc/zen3/TESTS
+$ wget http://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_NETCDF_MPI_tests.tar
+$ tar -xvf Fortran_C_NETCDF_MPI_tests.tar
+
+# Test 1: Fortran + C + NetCDF
+$ cp ${NETCDF}/include/netcdf.inc .
+$ gfortran -c 01_fortran+c+netcdf_f.f
+$ gcc -c 01_fortran+c+netcdf_c.c
+$ gfortran 01_fortran+c+netcdf_f.o 01_fortran+c+netcdf_c.o -L${NETCDF}/lib -lnetcdff -lnetcdf
+$ ./a.out
+C function called by Fortran
+Values are xx = 2.00 and ii = 1
+SUCCESS test 1 fortran + c + netcdf
 
 
-
-
+# Test 2: Fortran + C + NetCDF + MPI
+$ cp ${NETCDF}/include/netcdf.inc .
+$ mpif90 -c 02_fortran+c+netcdf+mpi_f.f
+$ mpicc -c 02_fortran+c+netcdf+mpi_c.c
+$ mpif90 02_fortran+c+netcdf+mpi_f.o 02_fortran+c+netcdf+mpi_c.o -L${NETCDF}/lib -lnetcdff -lnetcdf
+$ mpirun -np 2 ./a.out
+   C function called by Fortran
+   Values are xx =  2.00 and ii = 1
+   C function called by Fortran
+   Values are xx =  2.00 and ii = 1
+ status =            2
+ status =            2
+ SUCCESS test 2 fortran + c + netcdf + mpi
+ SUCCESS test 2 fortran + c + netcdf + mpi
+ 
+# BUILDING WRF_V3.9.1  
+# Upload Model PAckage.zip to the server and uncompres. Then copy file WRFV3.9.1.tar.gz
+$ cd $HOME/wrfpoc/zen3/Build_WRF
+$ cp {your_location}/WRFV3.9.1.tar.gz 
+$ tar zxvf WRFV3.9.1.tar.gz
 
 
 ```
+Few options are presented 
 
 
 
