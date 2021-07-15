@@ -342,6 +342,10 @@ export LDFLAGS=-L$DIR/grib2/lib
 export CPPFLAGS=-I$DIR/grib2/include
 export JASPERLIB=$DIR/grib2/lib
 export JASPERINC=$DIR/grib2/include
+export WRF_CHEM=1
+export WRF_KPP=1
+export WRFIO_NCD_LARGE_FILE_SUPPORT=1
+
 
 $ source ~/.bashrc
 
