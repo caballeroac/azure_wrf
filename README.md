@@ -251,7 +251,7 @@ $ qsub -I -q workq
 $ sudo yum -y install tmux scl file gcc gcc-gfortran gcc-c++ glibc.i686 libgcc.i686 libpng-devel jasper \
   jasper-devel hostname m4 make perl tar bash time wget which zlib zlib-devel \
   openssh-clients openssh-server net-tools fontconfig libgfortran libXext libXrender \
-  ImageMagick sudo epel-release git
+  ImageMagick sudo epel-release git help2man
   
 # COMPILERS TESTS
 
@@ -323,8 +323,7 @@ $ mkdir LIBRARIES
 $ cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES
 wget https://download.open-mpi.org/release/open-mpi/v4.1/openmpi-4.1.0.tar.gz
 wget http://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/netcdf-4.1.3.tar.gz 
-# wget http://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/jasper-1.900.1.tar.gz 
-wget https://github.com/jasper-software/jasper/releases/download/version-2.0.32/jasper.tar.gz
+wget http://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/jasper-1.900.1.tar.gz 
 wget http://prdownloads.sourceforge.net/libpng/libpng-1.6.37.tar.gz?download
 wget http://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/zlib-1.2.7.tar.gz
 # wget http://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/libpng-1.2.50.tar.gz 
@@ -346,9 +345,13 @@ export LDFLAGS=-L$DIR/grib2/lib
 export CPPFLAGS=-I$DIR/grib2/include
 export JASPERLIB=$DIR/grib2/lib
 export JASPERINC=$DIR/grib2/include
-export WRF_CHEM=1
-export WRF_KPP=1
+export FLEX=$DIR/flex/bin/flex
+export FLEX_LIB_DIR=$DIR/flex/lib
+
 export WRFIO_NCD_LARGE_FILE_SUPPORT=1
+export WRF_EM_CORE=1
+#export WRF_CHEM=1
+#export WRF_KPP=1
 
 
 $ source ~/.bashrc
@@ -390,12 +393,22 @@ $ cd ..
 #JasPer
 $ cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES
 $ tar -zxvf jasper-1.900.1.tar.gz
-$ cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES/jasper-1.900.1 jasper-2.0.32
+$ cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES/jasper-1.900.1
 $ ./configure --prefix=$DIR/grib2
 $ make
 $ make install
 $ cd ..
 
+
+#Flex
+$ cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES
+$ tar -zxvf v2.6.4.tar.gz
+$ cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES/flex-2.6.4
+$ ./autogen.sh
+$ ./configure --prefix=$DIR/flex
+$ make
+$ make install
+$ cd ..
 
 
 # Libraries compatibility tests
