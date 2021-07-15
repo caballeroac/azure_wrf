@@ -258,21 +258,19 @@ $ sudo yum -y install tmux scl file gcc gcc-gfortran gcc-c++ glibc.i686 libgcc.i
 $ mkdir -p $HOME/wrfpoc/zen3/Build_WRF
 $ mkdir -p $HOME/wrfpoc/zen3/TESTS
 
-$ module avail
-$ module load gcc-9.2.0
 
 $ which gfortran
-/opt/gcc-9.2.0/bin/gfortran
+/user/bin/gfortran
 $ which cpp
-/opt/gcc-9.2.0/bin/cpp
+/user/bin/cpp
 $ which gcc
-/opt/gcc-9.2.0/bin/gcc
+/user/bin/gcc
 
 $ gcc --version
-gcc (GCC) 9.2.0
-Copyright (C) 2019 Free Software Foundation, Inc.
-This is free software; see the source for copying conditions.  There is NO
-warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+gcc (Ubuntu 5.3.1−14ubuntu2.1) 5.3.1 20160413
+Copyright (C) 2015 Free Software Foundation, Inc.
+This is free software; see the source for copying conditions. There is NO
+warranty; not even for MERCHANTABILITY of FITNESS FOR A PARTICULAR PURPOSE.
 
 $ cd $HOME/wrfpoc/zen3/TESTS
 $ wget http://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_tests.tar
@@ -448,13 +446,12 @@ $ cd $HOME/wrfpoc/zen3/Build_WRF
 $ cp {your_location}/WRFV3.9.1.tar.gz 
 $ tar zxvf WRFV3.9.1.tar.gz
 $ cd $HOME/wrfpoc/zen3/Build_WRF/WRFV3
+$ ./clean -a
 $ ./configure
 
 ```
 Few options are presented 
 ```
-$ ./clean
-$ ./configure
 checking for perl5... no
 checking for perl... found /bin/perl (perl)
 Will use NETCDF in dir: /shared/home/azureuser/wrfpoc/zen3/Build_WRF/LIBRARIES/netcdf
@@ -491,7 +488,7 @@ Please select from among the following Linux x86_64 options:
  72. (serial)  73. (smpar)  74. (dmpar)  75. (dm+sm)   FUJITSU (frtpx/fccpx): FX10/FX100 SPARC64 IXfx/Xlfx
 
 ```
-Select 35 and neting = 1. Default
+Select `35` and nesting = `1. Default`
 
 Now we need to decide which type of case you wish to compile. Options are listed below.
 ```
