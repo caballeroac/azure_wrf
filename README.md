@@ -512,7 +512,8 @@ $ ./configure
 ```
 Few options are presented 
 ```
-[azureuser@ip-0A060006 WRFV3]$ ./configure
+$ ./clean
+$ ./configure
 checking for perl5... no
 checking for perl... found /bin/perl (perl)
 Will use NETCDF in dir: /shared/home/azureuser/wrfpoc/zen3/Build_WRF/LIBRARIES/netcdf
@@ -549,11 +550,11 @@ Please select from among the following Linux x86_64 options:
  72. (serial)  73. (smpar)  74. (dmpar)  75. (dm+sm)   FUJITSU (frtpx/fccpx): FX10/FX100 SPARC64 IXfx/Xlfx
 
 ```
-Select 34 and neting = 1. Default
+Select 35 and neting = 1. Default
 
 Now we need to decide which type of case you wish to compile. Options are listed below.
 ```
-m_real (3d real case)
+em_real (3d real case)
 em_quarter_ss (3d ideal case)
 em_b_wave (3d ideal case)
 em_les (3d ideal case)
@@ -567,8 +568,13 @@ em_seabreeze2d_x (2d ideal case)
 em_scm_xy (1d ideal case)
 ```
 
-For this purpose we are going to compile WRF for real cases. Compilation should take about 20-30 minutes. The ongoing compilation can be checked.
+For this purpose we are going to compile WRF for real cases. Compilation should take about 10 minutes. The ongoing compilation can be checked.
 ```
 $ ./compile em_real >& compile.log &
 $ tail -f compile.log
+```
+
+Once is completed the output should be like this:
+```
+TBD
 ```
