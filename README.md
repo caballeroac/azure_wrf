@@ -319,13 +319,17 @@ $ cd $HOME/wrfpoc/zen3/Build_WRF
 $ mkdir LIBRARIES
 
 $ cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES
-wget https://download.open-mpi.org/release/open-mpi/v4.1/openmpi-4.1.0.tar.gz
+wget https://www.open-mpi.org/software/ompi/v3.0/downloads/openmpi-3.0.2.tar.gz
 wget http://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/netcdf-4.1.3.tar.gz 
 wget http://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/jasper-1.900.1.tar.gz 
 wget http://prdownloads.sourceforge.net/libpng/libpng-1.6.37.tar.gz?download
 wget http://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/zlib-1.2.7.tar.gz
-# wget http://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/libpng-1.2.50.tar.gz 
 wget https://github.com/westes/flex/archive/refs/tags/v2.6.4.tar.gz
+$ mv libpng-1.6.37.tar.gz\?download libpng-1.6.37.tar.gz
+
+# wget http://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/libpng-1.2.50.tar.gz 
+# wget https://download.open-mpi.org/release/open-mpi/v4.1/openmpi-4.1.0.tar.gz
+
 
 $ vi ~/.bashrc
 export DIR=$HOME/wrfpoc/zen3/Build_WRF/LIBRARIES
@@ -362,9 +366,13 @@ $ make
 $ make install
 
 # openMPI
+$ vi /shared/apps/spack/0.16.0/spack/etc/spack/defaults/packages.yaml   --> make openMPI 'Buildable'
+$ spack install openmpi@3.0.2 %gcc@9.2.0
+$ module load openmpi-3.0.2-gcc-9.2.0-bpkidhd  
+
 $ cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES
-$ tar zxvf openmpi-4.1.0.tar.gz
-$ cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES/openmpi-4.1.0
+$ tar zxvf openmpi-3.0.2.tar.gz
+$ cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES/openmpi-3.0.2
 $ ./configure --prefix=$DIR/openmpi 
 $ make all install
 
@@ -379,7 +387,7 @@ $ cd ..
 
 # libpng
 $ cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES
-$ mv libpng-1.6.37.tar.gz\?download libpng-1.6.37.tar.gz
+
 $ tar -zxvf libpng-1.6.37.tar.gz
 $ cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES/libpng-1.6.37
 $ ./configure --prefix=$DIR/grib2
