@@ -319,7 +319,7 @@ $ cd $HOME/wrfpoc/zen3/Build_WRF
 $ mkdir LIBRARIES
 
 $ cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES
-wget https://www.open-mpi.org/software/ompi/v3.0/downloads/openmpi-3.0.2.tar.gz
+wget https://download.open-mpi.org/release/open-mpi/v1.6/openmpi-1.6.5.tar.gz
 wget http://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/netcdf-4.1.3.tar.gz 
 wget http://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/jasper-1.900.1.tar.gz 
 wget http://prdownloads.sourceforge.net/libpng/libpng-1.6.37.tar.gz?download
@@ -327,8 +327,6 @@ wget http://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/zlib
 wget https://github.com/westes/flex/archive/refs/tags/v2.6.4.tar.gz
 $ mv libpng-1.6.37.tar.gz\?download libpng-1.6.37.tar.gz
 
-# wget http://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/libpng-1.2.50.tar.gz 
-# wget https://download.open-mpi.org/release/open-mpi/v4.1/openmpi-4.1.0.tar.gz
 
 
 $ vi ~/.bashrc
@@ -358,23 +356,21 @@ export WRF_EM_CORE=1
 
 $ source ~/.bashrc
 
+# openMPI
+$ cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES
+$ tar zxvf openmpi-1.6.5.tar.gz
+$ cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES/openmpi-1.6.5
+$ ./configure --prefix=$DIR/openmpi 
+$ make all install
+$ make 
+$ make install
+
 # netcdf
 $ tar zxvf netcdf-4.1.3.tar.gz
 $ cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES/netcdf-4.1.3
 $ ./configure --prefix=$DIR/netcdf --disable-dap --disable-netcdf-4 --disable-shared
 $ make
 $ make install
-
-# openMPI
-$ vi /shared/apps/spack/0.16.0/spack/etc/spack/defaults/packages.yaml   --> make openMPI 'Buildable'
-$ spack install openmpi@3.0.2 %gcc@9.2.0
-$ module load openmpi-3.0.2-gcc-9.2.0-bpkidhd  
-
-$ cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES
-$ tar zxvf openmpi-3.0.2.tar.gz
-$ cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES/openmpi-3.0.2
-$ ./configure --prefix=$DIR/openmpi 
-$ make all install
 
 # zlib
 $ cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES
@@ -524,3 +520,14 @@ Once is completed the output should be like this:
 ```
 TBD
 ```
+
+openmpi 1.6.5 
+gcc 4.8.5
+wget https://download.open-mpi.org/release/open-mpi/v1.6/openmpi-1.6.5.tar.gz
+tar zxvf openmpi-1.6.5.tar.gz
+
+
+ 
+
+
+
