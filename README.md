@@ -343,6 +343,7 @@ export FFLAGS=-m64
 export PATH=$DIR/openmpi/bin:$PATH
 export PATH=$DIR/netcdf/bin:$PATH
 export NETCDF=$DIR/netcdf
+export HDF4=$DIR/hdf4
 export LDFLAGS=-L$DIR/grib2/lib
 export CPPFLAGS=-I$DIR/grib2/include
 export JASPERLIB=$DIR/grib2/lib
@@ -391,7 +392,7 @@ $ cd ..
 $ cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES
 $ tar zxvf hdf-4.2.13.tar.gz
 $ cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES/hdf-4.2.13
-$ ./configure --prefix=$DIR --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --with-jpeg=$DIR/jpeg
+$ ./configure --prefix=$DIR/hdf4 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --with-jpeg=$DIR/jpeg
 $ make 
 $ make install
 cd ..
@@ -403,7 +404,6 @@ $ cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES/netcdf-4.1.3
 $ ./configure --prefix=$DIR/netcdf --disable-dap --disable-netcdf-4 --disable-shared
 $ make
 $ make install
-
 
 
 # libpng
