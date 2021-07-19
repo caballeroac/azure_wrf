@@ -182,9 +182,13 @@ Virtual Packages:
 
 Load gcc 9.2 compilers and OpenMPI before we start with wrf installation:
 ```
+. /shared/apps/spack/0.16.0/spack/share/spack/setup-env.sh
 module avail
 module load gcc-9.2.0
 module load mpi/openmpi
+module load amd/aocl
+
+
 
 # spack external find (optional)
 ```
@@ -327,9 +331,12 @@ wget http://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/zlib
 wget https://github.com/westes/flex/archive/refs/tags/v2.6.4.tar.gz
 wget https://support.hdfgroup.org/ftp/HDF/releases/HDF4.2.13/src/hdf-4.2.13.tar.gz
 wget https://www.ijg.org/files/jpegsrc.v9d.tar.gz
-$ mv libpng-1.6.37.tar.gz\?download libpng-1.6.37.tar.gz
+mv libpng-1.6.37.tar.gz\?download libpng-1.6.37.tar.gz
 
 
+
+module load amd/aocl
+module load mpi/openmpi
 
 $ vi ~/.bashrc
 export DIR=$HOME/wrfpoc/zen3/Build_WRF/LIBRARIES
@@ -360,42 +367,46 @@ export WRF_EM_CORE=1
 $ source ~/.bashrc
 
 # openMPI
-$ cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES
-$ tar zxvf openmpi-1.6.5.tar.gz
-$ cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES/openmpi-1.6.5
-$ ./configure --prefix=$DIR/openmpi 
-$ make all install
-$ make 
-$ make install
+cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES
+tar zxvf openmpi-1.6.5.tar.gz
+cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES/openmpi-1.6.5
+./configure --prefix=$DIR/openmpi 
+make all install
+make 
+make install
+
 
 
 # zlib
-$ cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES
-$ tar -zxvf zlib-1.2.7.tar.gz
-$ cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES/zlib-1.2.7
-$ ./configure --prefix=$DIR/grib2
-$ make
-$ make install
-$ cd ..
+cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES
+tar -zxvf zlib-1.2.7.tar.gz
+cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES/zlib-1.2.7
+./configure --prefix=$DIR/grib2
+make
+make install
+cd ..
+
 
 
 # jpeg-9b
-$ cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES
-$ tar zxvf jpegsrc.v9d.tar.gz
-$ cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES/jpeg-9d
-$ ./configure --prefix=$DIR/jpeg
-$ make
-$ make install
-$ cd ..
+cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES
+tar zxvf jpegsrc.v9d.tar.gz
+cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES/jpeg-9d
+./configure --prefix=$DIR/jpeg
+make
+make install
+cd ..
+
 
 # hdf4
-$ cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES
-$ tar zxvf hdf-4.2.13.tar.gz
-$ cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES/hdf-4.2.13
-$ ./configure --prefix=$DIR/hdf4 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --with-jpeg=$DIR/jpeg
-$ make 
-$ make install
+cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES
+tar zxvf hdf-4.2.13.tar.gz
+cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES/hdf-4.2.13
+./configure --prefix=$DIR/hdf4 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --with-jpeg=$DIR/jpeg 
+make 
+make install
 cd ..
+
 
 # netcdf
 $ cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES
