@@ -330,6 +330,7 @@ wget http://prdownloads.sourceforge.net/libpng/libpng-1.6.37.tar.gz?download
 wget http://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/zlib-1.2.7.tar.gz
 wget https://github.com/westes/flex/archive/refs/tags/v2.6.4.tar.gz
 wget https://support.hdfgroup.org/ftp/HDF/releases/HDF4.2.13/src/hdf-4.2.13.tar.gz
+wget https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.10/hdf5-1.10.4/src/hdf5-1.10.4.tar.gz
 wget https://www.ijg.org/files/jpegsrc.v9d.tar.gz
 mv libpng-1.6.37.tar.gz\?download libpng-1.6.37.tar.gz
 
@@ -371,11 +372,8 @@ cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES
 tar zxvf openmpi-1.6.5.tar.gz
 cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES/openmpi-1.6.5
 ./configure --prefix=$DIR/openmpi 
-make all install
 make 
 make install
-
-
 
 # zlib
 cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES
@@ -385,7 +383,6 @@ cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES/zlib-1.2.7
 make
 make install
 cd ..
-
 
 
 # jpeg-9b
@@ -407,45 +404,54 @@ make
 make install
 cd ..
 
+# hfd5
+cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES
+tar zxvf hdf5-1.10.4.tar.gz
+cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES/hdf5-1.10.4 
+./configure --prefix=$DIR/hdf5  --enable-hl --enable-fortran --with-zlib=$DIR/grib2 
+make 
+make install
+cd ..
 
 # netcdf
-$ cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES
-$ tar zxvf netcdf-4.1.3.tar.gz
-$ cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES/netcdf-4.1.3
-$ ./configure --prefix=$DIR/netcdf --disable-dap --disable-netcdf-4 --disable-shared
-$ make
-$ make install
+cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES
+tar zxvf netcdf-4.1.3.tar.gz
+cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES/netcdf-4.1.3
+./configure --prefix=$DIR/netcdf --disable-dap --disable-netcdf-4 --disable-shared
+make
+make install
 
 
 # libpng
-$ cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES
-$ tar -zxvf libpng-1.6.37.tar.gz
-$ cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES/libpng-1.6.37
-$ ./configure --prefix=$DIR/grib2
-$ make
-$ make install
-$ cd ..
+cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES
+tar -zxvf libpng-1.6.37.tar.gz
+cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES/libpng-1.6.37
+./configure --prefix=$DIR/grib2
+make
+make install
+cd ..
 
 
 #JasPer
-$ cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES
-$ tar -zxvf jasper-1.900.1.tar.gz
-$ cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES/jasper-1.900.1
-$ ./configure --prefix=$DIR/grib2
-$ make
-$ make install
-$ cd ..
+cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES
+tar -zxvf jasper-1.900.1.tar.gz
+cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES/jasper-1.900.1
+./configure --prefix=$DIR/grib2
+make
+make install
+cd ..
 
 
 #Flex
-$ cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES
-$ tar -zxvf v2.6.4.tar.gz
-$ cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES/flex-2.6.4
-$ ./autogen.sh
-$ ./configure --prefix=$DIR/flex
-$ make
-$ make install
-$ cd ..
+sudo yum install -y help2man
+cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES
+tar -zxvf v2.6.4.tar.gz
+cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES/flex-2.6.4
+./autogen.sh
+./configure --prefix=$DIR/flex
+make
+make install
+cd ..
 
 
 # Libraries compatibility tests
@@ -546,6 +552,7 @@ em_scm_xy (1d ideal case)
 ```
 
 For this purpose we are going to compile WRF for real cases. Compilation should take about 10 minutes. The ongoing compilation can be checked.
+Edit line 477 and increase 20 to 80 for faster complilation
 ```
 $ ./compile em_real >& compile.log &
 $ tail -f compile.log
