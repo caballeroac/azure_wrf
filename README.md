@@ -340,7 +340,9 @@ module load amd/aocl
 module load mpi/openmpi
 
 $ vi ~/.bashrc
+
 export DIR=$HOME/wrfpoc/zen3/Build_WRF/LIBRARIES
+#export DIR=$HOME/wrfpoc/x86_64/Build_WRF/LIBRARIES
 export CC=gcc
 export CXX=g++
 export FC=gfortran
@@ -351,18 +353,25 @@ export FFLAGS=-m64
 export PATH=$DIR/openmpi/bin:$PATH
 export PATH=$DIR/netcdf/bin:$PATH
 export NETCDF=$DIR/netcdf
-export HDF4=$DIR/hdf4
-export LDFLAGS=-L$DIR/grib2/lib
-export CPPFLAGS=-I$DIR/grib2/include
 export JASPERLIB=$DIR/grib2/lib
 export JASPERINC=$DIR/grib2/include
 export FLEX=$DIR/flex/bin/flex
 export FLEX_LIB_DIR=$DIR/flex/lib
+export HDF4=$DIR/hdf4
+export HDF5=$DIR/hdf5
+
+# run-time linking   ${H5DIR}/lib
+export LD_LIBRARY_PATH=${HDF5}/lib:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=${HDF4}/lib:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=${NETCDF}/lib:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=${JASPERLIB}:$LD_LIBRARY_PATH
+
+export LDFLAGS="-L$DIR/grib2/lib"
+export CPPFLAGS="-I$DIR/grib2/include"
 
 export WRFIO_NCD_LARGE_FILE_SUPPORT=1
 export WRF_EM_CORE=1
-#export WRF_CHEM=1
-#export WRF_KPP=1
+
 
 
 $ source ~/.bashrc
