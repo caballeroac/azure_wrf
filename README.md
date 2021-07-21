@@ -359,12 +359,17 @@ export FLEX=$DIR/flex/bin/flex
 export FLEX_LIB_DIR=$DIR/flex/lib
 export HDF4=$DIR/hdf4
 export HDF5=$DIR/hdf5
+export OPENMPI=$DIR/openmpi
 
 # run-time linking   ${H5DIR}/lib
 export LD_LIBRARY_PATH=${HDF5}/lib:$LD_LIBRARY_PATH
 export LD_LIBRARY_PATH=${HDF4}/lib:$LD_LIBRARY_PATH
 export LD_LIBRARY_PATH=${NETCDF}/lib:$LD_LIBRARY_PATH
 export LD_LIBRARY_PATH=${JASPERLIB}:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=${FLEX_LIB_DIR}:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=${FLEX_LIB_DIR}:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=${OPENMPI}/lib:$LD_LIBRARY_PATH
+
 
 export LDFLAGS="-L$DIR/grib2/lib"
 export CPPFLAGS="-I$DIR/grib2/include"
@@ -398,7 +403,7 @@ cd ..
 cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES
 tar zxvf jpegsrc.v9d.tar.gz
 cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES/jpeg-9d
-./configure --prefix=$DIR/jpeg
+./configure --prefix=$DIR/jpeg --disable-dependency-tracking
 make
 make install
 cd ..
@@ -408,7 +413,8 @@ cd ..
 cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES
 tar zxvf hdf-4.2.13.tar.gz
 cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES/hdf-4.2.13
-./configure --prefix=$DIR/hdf4 --with-zlib=$DIR/grib2 --enable-fortran --with-jpeg=$DIR/jpeg --with-gnu-ld
+./configure --prefix=$DIR/hdf4 --with-zlib=$DIR/grib2 --enable-fortran --with-jpeg=$DIR/jpeg 
+#--with-gnu-ld
 make 
 make install
 cd ..
