@@ -435,7 +435,7 @@ cd ..
 cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES
 tar zxvf hdf5-1.10.4.tar.gz
 cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES/hdf5-1.10.4 
-./configure --prefix=$DIR/hdf5 --enable-hl --enable-fortran --enable-unsupported --enable-cxx  --with-zlib=$DIR/zlib 
+./configure --prefix=$DIR/hdf5 --enable-hl --enable-fortran --enable-unsupported --enable-cxx  --with-zlib=$DIR/zlib --with-pic
 make 
 make install
 cd ..
