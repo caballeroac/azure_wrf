@@ -564,7 +564,7 @@ Please select from among the following Linux x86_64 options:
  72. (serial)  73. (smpar)  74. (dmpar)  75. (dm+sm)   FUJITSU (frtpx/fccpx): FX10/FX100 SPARC64 IXfx/Xlfx
 
 ```
-Select `35` and nesting = `1. Default`
+Select `34` and nesting = `1. Default`
 
 Now we need to decide which type of case you wish to compile. Options are listed below.
 ```
