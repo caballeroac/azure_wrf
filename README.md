@@ -335,20 +335,29 @@ wget https://www.ijg.org/files/jpegsrc.v9d.tar.gz
 mv libpng-1.6.37.tar.gz\?download libpng-1.6.37.tar.gz
 
 
+$ vi ~/setenv.sh
 
-module load amd/aocl
-module load mpi/openmpi
+#!/bin/bash
 
-$ vi ~/.bashrc
+ulimit -s unlimited
+
+export OPENSSL=openssl
+export YACC="yacc -d"
+export J="-j 12"
 
 export DIR=$HOME/wrfpoc/zen3/Build_WRF/LIBRARIES
-#export DIR=$HOME/wrfpoc/x86_64/Build_WRF/LIBRARIES
+
+# COMPILERS
 export CC=gcc
-export CXX=g++
 export FC=gfortran
-export FCFLAGS=-m64
-export F77=gfortran
-export FFLAGS=-m64
+export SERIAL_FC=gfortran
+export SERIAL_F77=gfortran
+export SERIAL_CC=gcc
+export SERIAL_CXX=g++
+export MPI_FC=mpif90
+export MPI_F77=mpif77
+export MPI_CC=mpicc
+export MPI_CXX=mpicxx
 
 export PATH=$DIR/openmpi/bin:$PATH
 export PATH=$DIR/netcdf/bin:$PATH
@@ -370,12 +379,16 @@ export LD_LIBRARY_PATH=${FLEX_LIB_DIR}:$LD_LIBRARY_PATH
 export LD_LIBRARY_PATH=${FLEX_LIB_DIR}:$LD_LIBRARY_PATH
 export LD_LIBRARY_PATH=${OPENMPI}/lib:$LD_LIBRARY_PATH
 
-
-export LDFLAGS="-L$DIR/grib2/lib"
-export CPPFLAGS="-I$DIR/grib2/include"
-
-export WRFIO_NCD_LARGE_FILE_SUPPORT=1
+# WRF
+export WRFV3=$HOME/wrfpoc/zen3/Build_WRF/WRFV3
+export WRF_SRC_ROOT_DIR=$WRFHOME
 export WRF_EM_CORE=1
+export WRF_NMM_CORE=0
+export WRFIO_NCD_LARGE_FILE_SUPPORT=1
+
+# WRF-CHEM
+export WRF_CHEM=1
+export WRF_KPP=1
 
 
 
@@ -393,11 +406,10 @@ make install
 cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES
 tar -zxvf zlib-1.2.7.tar.gz
 cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES/zlib-1.2.7
-./configure --prefix=$DIR/grib2
+./configure --prefix=$DIR/zlib
 make
 make install
 cd ..
-
 
 # jpeg-9b
 cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES
@@ -413,7 +425,7 @@ cd ..
 cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES
 tar zxvf hdf-4.2.13.tar.gz
 cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES/hdf-4.2.13
-./configure --prefix=$DIR/hdf4 --with-zlib=$DIR/grib2 --enable-fortran --with-jpeg=$DIR/jpeg 
+./configure --prefix=$DIR/hdf4 --with-zlib=$DIR/zlib --enable-fortran --with-jpeg=$DIR/jpeg 
 #--with-gnu-ld
 make 
 make install
@@ -423,7 +435,7 @@ cd ..
 cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES
 tar zxvf hdf5-1.10.4.tar.gz
 cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES/hdf5-1.10.4 
-./configure --prefix=$DIR/hdf5  --enable-hl --enable-fortran --with-zlib=$DIR/grib2 
+./configure --prefix=$DIR/hdf5 --enable-hl --enable-fortran --enable-unsupported --enable-cxx  --with-zlib=$DIR/zlib 
 make 
 make install
 cd ..
@@ -432,6 +444,8 @@ cd ..
 cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES
 tar zxvf netcdf-4.1.3.tar.gz
 cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES/netcdf-4.1.3
+export LDFLAGS="-L$DIR/zlib/lib -L$DIR/jpeg/lib"
+export CPFLAGS="-I$DIR/zlib/include -I$DIR/jpeg/include"
 ./configure --prefix=$DIR/netcdf --disable-dap --disable-netcdf-4 --disable-shared
 make
 make install
@@ -441,7 +455,9 @@ make install
 cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES
 tar -zxvf libpng-1.6.37.tar.gz
 cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES/libpng-1.6.37
-./configure --prefix=$DIR/grib2
+export LDFLAGS=-L$DIR/zlib/lib
+export CPFLAGS=-I$DIR/zlib/include
+./configure --prefix=$DIR/libpng
 make
 make install
 cd ..
@@ -451,7 +467,7 @@ cd ..
 cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES
 tar -zxvf jasper-1.900.1.tar.gz
 cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES/jasper-1.900.1
-./configure --prefix=$DIR/grib2
+./configure --prefix=$DIR/jasper
 make
 make install
 cd ..
