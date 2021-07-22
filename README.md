@@ -343,7 +343,7 @@ ulimit -s unlimited
 
 export OPENSSL=openssl
 export YACC="yacc -d"
-export J="-j 12"
+export J="-j 6"
 
 export DIR=$HOME/wrfpoc/zen3/Build_WRF/LIBRARIES
 
@@ -381,18 +381,13 @@ export LD_LIBRARY_PATH=${OPENMPI}/lib:$LD_LIBRARY_PATH
 
 # WRF
 export WRFV3=$HOME/wrfpoc/zen3/Build_WRF/WRFV3
-export WRF_SRC_ROOT_DIR=$WRFHOME
-export WRF_EM_CORE=1
-export WRF_NMM_CORE=0
 export WRFIO_NCD_LARGE_FILE_SUPPORT=1
-
-# WRF-CHEM
 export WRF_CHEM=1
 export WRF_KPP=1
 
 
 
-$ source ~/.bashrc
+$ source ~/setenv.sh
 
 # openMPI
 cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES
