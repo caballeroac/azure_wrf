@@ -561,6 +561,11 @@ Please select from among the following Linux x86_64 options:
 ```
 Select `34` and nesting = `1. Default`
 
+The configuration will create the `configure.wrf` file. Modify the value of DM_CC as indicated below:
+```
+DM_CC           =       mpicc -DMPI2_SUPPORT
+```
+
 Now we need to decide which type of case you wish to compile. Options are listed below.
 ```
 em_real (3d real case)
@@ -576,9 +581,7 @@ em_grav2d_x (2d ideal case)
 em_seabreeze2d_x (2d ideal case)
 em_scm_xy (1d ideal case)
 ```
-
-For this purpose we are going to compile WRF for real cases. Compilation should take about 10 minutes. The ongoing compilation can be checked.
-Edit line 477 and increase 20 to 80 for faster complilation
+For this purpose we are going to compile WRF for real cases. Compilation should take about 20-30 minutes. The ongoing compilation can be checked.
 ```
 $ ./compile em_real >& compile.log &
 $ tail -f compile.log
@@ -586,7 +589,19 @@ $ tail -f compile.log
 
 Once is completed the output should be like this:
 ```
-TBD
+==========================================================================
+build started:   Thu Jul 22 16:58:45 UTC 2021
+build completed: Thu Jul 22 17:32:15 UTC 2021
+
+--->                  Executables successfully built                  <---
+
+-rwxrwxr-x. 1 azureuser azureuser 63292080 Jul 22 17:32 main/ndown.exe
+-rwxrwxr-x. 1 azureuser azureuser 63148792 Jul 22 17:32 main/real.exe
+-rwxrwxr-x. 1 azureuser azureuser 62438144 Jul 22 17:32 main/tc.exe
+-rwxrwxr-x. 1 azureuser azureuser 79232976 Jul 22 17:29 main/wrf.exe
+
+==========================================================================
+
 ```
 
 
