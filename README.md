@@ -420,8 +420,8 @@ cd ..
 cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES
 tar zxvf hdf-4.2.13.tar.gz
 cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES/hdf-4.2.13
-./configure --prefix=$DIR/hdf4 --with-zlib=$DIR/zlib --enable-fortran --with-jpeg=$DIR/jpeg 
-#--with-gnu-ld
+./configure --prefix=$DIR/hdf4 --with-zlib=$DIR/zlib --enable-fortran --with-jpeg=$DIR/jpeg    # --> Use this with gcc-4.8.5
+./configure --prefix=$DIR/hdf4 --with-zlib=$DIR/zlib --enable-fortran --with-jpeg=$DIR/jpeg  --with-gnu-ld    # --> Use this with gcc-9.2.0
 make 
 make install
 cd ..
