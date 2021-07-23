@@ -605,6 +605,31 @@ build completed: Thu Jul 22 17:32:15 UTC 2021
 ```
 
 
+### Pre-Processing Tools ####
+#### WPS #####
+#### OBSGRID #####
+```
+sudo yum install cairo-devel -y
+
+cd 
+--> 
+```
+
+```
+/bin/ld: cannot find -lncarg
+/bin/ld: cannot find -lncarg_gks
+/bin/ld: cannot find -lncarg_c
+/bin/ld: cannot find -lX11
+/bin/ld: cannot find -lcairo
+collect2: error: ld returned 1 exit status
+make: [plot_soundings.exe] Error 1 (ignored)
+```
+
+#### VPRMpreproc_R99 #####
+
+
+
+
  
 
 
