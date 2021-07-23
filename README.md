@@ -604,17 +604,50 @@ build completed: Thu Jul 22 17:32:15 UTC 2021
 
 ```
 
-
 ### Pre-Processing Tools ####
 #### WPS #####
+
+```
+$ cd $HOME/wrfpoc/zen3/Build_WRF/WPS
+$ ./configure
+$ vi configure.wps
+```
+Replace with the following values:
+
+```
+DM_FC               = mpif90
+DM_CC               = mpicc
+CPP                 = cpp -P -traditional
+```
+Now compile:
+```
+$ ./compile 
+$ find ./ -name "*.exe"
+./util/src/rd_intermediate.exe
+./util/src/mod_levs.exe
+./util/src/int2nc.exe
+./util/src/height_ukmo.exe
+./util/src/calc_ecmwf_p.exe
+./util/src/avg_tsfc.exe
+./util/rd_intermediate.exe
+./util/mod_levs.exe
+./util/int2nc.exe
+./util/height_ukmo.exe
+./util/g1print.exe
+./util/calc_ecmwf_p.exe
+./util/avg_tsfc.exe
+./ungrib/src/g1print.exe
+./ungrib/g1print.exe
+```
+
 #### OBSGRID #####
 ```
 sudo yum install cairo-devel -y
+sudo yum install ncl-devel -y
 
 cd 
 --> 
 ```
-
 ```
 /bin/ld: cannot find -lncarg
 /bin/ld: cannot find -lncarg_gks
