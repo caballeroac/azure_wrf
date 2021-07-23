@@ -106,9 +106,8 @@ srun hostname
 ssh ip-0A060005   # Replace ip-0A060005 with the output of the srun commnad
 
 # With PBSPro
-qsub -I -q workq
+qsub -I -q workq -l walltime=06:00:00
 ```
-
 Load spack environment settings:
 ```
 . /shared/apps/spack/0.16.0/spack/share/spack/setup-env.sh
@@ -643,7 +642,6 @@ $ find ./ -name "*.exe"
 #### OBSGRID #####
 ```
 sudo yum install cairo-devel -y
-sudo yum install ncl-devel -y
 
 cd 
 --> 
@@ -652,16 +650,30 @@ cd
 /bin/ld: cannot find -lncarg
 /bin/ld: cannot find -lncarg_gks
 /bin/ld: cannot find -lncarg_c
-/bin/ld: cannot find -lX11
-/bin/ld: cannot find -lcairo
+
 collect2: error: ld returned 1 exit status
 make: [plot_soundings.exe] Error 1 (ignored)
 ```
 
 #### VPRMpreproc_R99 #####
 
+#### MOZBC #####
+```
+$ cd $HOME/wrfpoc/zen3/Build_WRF/mozbc
+$ export NETCDF_DIR=$NETCDF
+$ cp ${NETCDF}/include/netcdf.inc .
+```
+Edit the Makefile with the right $NETCDF
+```
+LIBS   = -L${NETCDF}/lib $(AR_FILES)
+INCLUDE_MODULES = -I${NETCDF}/include
 
+```
 
+Now compile
+```
+$ ./make_mozbc
+```
 
  
 
