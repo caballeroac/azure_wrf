@@ -611,7 +611,7 @@ $ cd $HOME/wrfpoc/zen3/Build_WRF/WPS
 $ ./configure
 $ vi configure.wps
 ```
-Replace with the following values:
+Replace the file `configure.wps` with the following values:
 
 ```
 DM_FC               = mpif90
