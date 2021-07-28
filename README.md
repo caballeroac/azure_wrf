@@ -249,18 +249,18 @@ wget https://www2.mmm.ucar.edu/wrf/src/conus2.5km.tar.gz
 
 ```
 $ screen 
-$ qsub -I -q workq
+$ qsub -I -q workq -l walltime=05:00:00
 
 $ sudo yum -y install tmux scl file gcc gcc-gfortran gcc-c++ glibc.i686 libgcc.i686 libpng-devel jasper \
   jasper-devel hostname m4 make perl tar bash time wget which zlib zlib-devel \
   openssh-clients openssh-server net-tools fontconfig libgfortran libXext libXrender \
   ImageMagick sudo epel-release git help2man
   
-# COMPILERS TESTS
+  
+# COMPILERS TESTS 
 
 $ mkdir -p $HOME/wrfpoc/zen3/Build_WRF
 $ mkdir -p $HOME/wrfpoc/zen3/TESTS
-
 
 $ which gfortran
 /user/bin/gfortran
@@ -322,7 +322,6 @@ $ cd $HOME/wrfpoc/zen3/Build_WRF
 $ mkdir LIBRARIES
 
 $ cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES
-wget https://download.open-mpi.org/release/open-mpi/v1.6/openmpi-1.6.5.tar.gz
 wget http://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/netcdf-4.1.3.tar.gz 
 wget http://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/jasper-1.900.1.tar.gz 
 wget http://prdownloads.sourceforge.net/libpng/libpng-1.6.37.tar.gz?download
@@ -384,17 +383,16 @@ export WRFIO_NCD_LARGE_FILE_SUPPORT=1
 export WRF_CHEM=1
 export WRF_KPP=1
 
+# EOF
+```
 
+```
 
+module avail
+module load gcc-9.2.0
+module load mpi/openmpi
 $ source ~/setenv.sh
 
-# openMPI
-cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES
-tar zxvf openmpi-1.6.5.tar.gz
-cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES/openmpi-1.6.5
-./configure --prefix=$DIR/openmpi 
-make 
-make install
 
 # zlib
 cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES
