@@ -332,7 +332,9 @@ wget https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.10/hdf5-1.10.4/src/hd
 wget https://www.ijg.org/files/jpegsrc.v9d.tar.gz
 mv libpng-1.6.37.tar.gz\?download libpng-1.6.37.tar.gz
 
-
+```
+Create a setevn.sh file:
+```
 $ vi ~/setenv.sh
 
 #!/bin/bash
@@ -386,12 +388,13 @@ export WRF_KPP=1
 # EOF
 ```
 
-```
+We will compile now the libraries needed.
 
-module avail
-module load gcc-9.2.0
-module load mpi/openmpi
+```
 $ source ~/setenv.sh
+$ module avail
+$ module load gcc-9.2.0
+$ module load mpi/openmpi
 
 
 # zlib
