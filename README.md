@@ -645,11 +645,18 @@ It requires cairo-devel libaries and  [NCL libraries ](https://www.ncl.ucar.edu/
 NCL Libraries requires also JPEG, ZLIB,Cairo, NetCDF, HDF-4 plus some optional external packages. 
 ```
 $ sudo yum install cairo-devel -y
-$ cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES
-$ wget https://github.com/NCAR/ncl.git
+
 
 ```
 DEBUGGING
+
+$ source ~/anaconda3/bin/activate
+$ conda create -n ncl_stable -c conda-forge ncl
+$ conda activate ncl_stable
+$ cd $HOME/wrfpoc/zen3/Build_WRF/OBSGRID
+$ ./configure
+$ ./compile
+
 ```
 /bin/ld: cannot find -lncarg
 /bin/ld: cannot find -lncarg_gks
@@ -660,6 +667,11 @@ make: [plot_soundings.exe] Error 1 (ignored)
 ```
 
 #### 3. VPRMpreproc_R99 #####
+
+VPRMpreproc_R99.tar
+MRT_32bit_i386_static_patched.tar
+ldope_32bit_i386_static_patched.tar
+
 
 #### 4. MOZBC #####
 ```
