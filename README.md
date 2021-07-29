@@ -604,7 +604,7 @@ build completed: Thu Jul 22 17:32:15 UTC 2021
 ```
 
 ### Pre-Processing Tools ####
-#### WPS #####
+#### 1. WPS #####
 
 ```
 $ cd $HOME/wrfpoc/zen3/Build_WRF/WPS
@@ -639,13 +639,17 @@ $ find ./ -name "*.exe"
 ./ungrib/g1print.exe
 ```
 
-#### OBSGRID #####
-```
-sudo yum install cairo-devel -y
+#### 2. OBSGRID #####
 
-cd 
---> 
+It requires cairo-devel libaries and  [NCL libraries ](https://www.ncl.ucar.edu/Download/build_from_src.shtml)
+NCL Libraries requires also JPEG, ZLIB,Cairo, NetCDF, HDF-4 plus some optional external packages. 
 ```
+$ sudo yum install cairo-devel -y
+$ cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES
+$ wget https://github.com/NCAR/ncl.git
+
+```
+DEBUGGING
 ```
 /bin/ld: cannot find -lncarg
 /bin/ld: cannot find -lncarg_gks
@@ -655,9 +659,9 @@ collect2: error: ld returned 1 exit status
 make: [plot_soundings.exe] Error 1 (ignored)
 ```
 
-#### VPRMpreproc_R99 #####
+#### 3. VPRMpreproc_R99 #####
 
-#### MOZBC #####
+#### 4. MOZBC #####
 ```
 $ cd $HOME/wrfpoc/zen3/Build_WRF/mozbc
 $ export NETCDF_DIR=$NETCDF
