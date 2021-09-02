@@ -649,7 +649,7 @@ $ sudo yum install cairo-devel -y
 
 ```
 DEBUGGING
-
+```
 $ source ~/anaconda3/bin/activate
 $ conda create -n ncl_stable -c conda-forge ncl
 $ conda activate ncl_stable
