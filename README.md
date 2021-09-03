@@ -419,13 +419,14 @@ cd ..
 cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES
 tar zxvf hdf-4.2.13.tar.gz
 cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES/hdf-4.2.13
-./configure --prefix=$DIR/hdf4 --with-zlib=$DIR/zlib --enable-fortran --with-jpeg=$DIR/jpeg    # --> Use this with gcc-4.8.5
-./configure --prefix=$DIR/hdf4 --with-zlib=$DIR/zlib --enable-fortran --with-jpeg=$DIR/jpeg  --with-gnu-ld    # --> Use this with gcc-9.2.0
+./configure --prefix=$DIR/hdf4 --with-zlib=$DIR/zlib --enable-fortran --with-jpeg=$DIR/jpeg   # --> Use this with gcc-4.8.5
+./configure --prefix=$DIR/hdf4 --with-zlib=$DIR/zlib --enable-fortran --with-jpeg=$DIR/jpeg   --with-gnu-ld    # --> Use this with gcc-9.2.0
+./configure --prefix=$DIR/hdf4 --with-zlib=$DIR/zlib --disable-fortran --with-jpeg=$DIR/jpeg   --enable-shared --with-gnu-ld    # --> Use this with gcc-9.2.0
 make 
 make install
 cd ..
 
-# hfd5
+# hdf5
 cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES
 tar zxvf hdf5-1.10.4.tar.gz
 cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES/hdf5-1.10.4 
@@ -650,6 +651,9 @@ $ sudo yum install cairo-devel -y
 ```
 DEBUGGING
 ```
+$ sudo yum install hdf-devel.x86_64 -y
+$ conda install hdf4
+
 $ source ~/anaconda3/bin/activate
 $ conda create -n ncl_stable -c conda-forge ncl
 $ conda activate ncl_stable
