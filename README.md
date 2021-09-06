@@ -415,7 +415,7 @@ make install
 cd ..
 
 
-# hdf4
+# hdf4 (Build netcdf first!!! and enable shared-libraries - Is Needed by OBSGRID later)
 cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES
 tar zxvf hdf-4.2.13.tar.gz
 cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES/hdf-4.2.13
@@ -658,6 +658,9 @@ $ source ~/anaconda3/bin/activate
 $ conda create -n ncl_stable -c conda-forge ncl
 $ conda activate ncl_stable
 $ cd $HOME/wrfpoc/zen3/Build_WRF/OBSGRID
+$ export FCFLAGS="-w -Wno-argument-mismatch -O2"
+$ export FFLAGS="-w -Wno-argument-mismatch -O2"
+
 $ ./configure
 $ ./compile
 
