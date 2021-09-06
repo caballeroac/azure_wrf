@@ -40,6 +40,7 @@ sudo yum -y install screen
 sudo yum -y install clang
 sudo yum -y install python3
 sudo yum -y install tcsh
+sudo yum -y install java
 
 
 
@@ -717,9 +718,18 @@ lrwxrwxrwx 1 azureuser azureuser 22 Sep  6 15:43 plot_soundings.exe -> src/plot_
 #### 3. VPRMpreproc_R99 #####
 
 VPRMpreproc_R99.tar
+```
+TBD
+```
 MRT_32bit_i386_static_patched.tar
-ldope_32bit_i386_static_patched.tar
+```
+$ sh ./install
+```
 
+ldope_32bit_i386_static_patched.tar
+```
+$ sh ./LDOPE_Linux_install.sh
+```
 
 #### 4. MOZBC #####
 ```
