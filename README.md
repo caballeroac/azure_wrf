@@ -625,7 +625,6 @@ $ ./configure
  
  Select Option 3
 
-```
 $ vi configure.wps
 ```
 Replace the file `configure.wps` with the following values:
