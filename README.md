@@ -369,6 +369,9 @@ export FLEX_LIB_DIR=$DIR/flex/lib
 export HDF4=$DIR/hdf4
 export HDF5=$DIR/hdf5
 export OPENMPI=$DIR/openmpi
+export LIBPNG=$DIR/libpng
+export LIBPNGLIB=$DIR/libpng
+# export NCARG=$DIR/ncl --> done via anaconda
 
 # run-time linking   ${H5DIR}/lib
 export LD_LIBRARY_PATH=${HDF5}/lib:$LD_LIBRARY_PATH
@@ -378,6 +381,8 @@ export LD_LIBRARY_PATH=${JASPERLIB}:$LD_LIBRARY_PATH
 export LD_LIBRARY_PATH=${FLEX_LIB_DIR}:$LD_LIBRARY_PATH
 export LD_LIBRARY_PATH=${FLEX_LIB_DIR}:$LD_LIBRARY_PATH
 export LD_LIBRARY_PATH=${OPENMPI}/lib:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=${LIBPNG}/lib:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=/usr/lib64:$LD_LIBRARY_PATH
 
 # WRF
 export WRFV3=$HOME/wrfpoc/zen3/Build_WRF/WRFV3
@@ -405,6 +410,7 @@ make
 make install
 cd ..
 
+
 # jpeg-9b
 cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES
 tar zxvf jpegsrc.v9d.tar.gz
@@ -415,13 +421,24 @@ make install
 cd ..
 
 
+# netcdf
+cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES
+tar zxvf netcdf-4.1.3.tar.gz
+cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES/netcdf-4.1.3
+export LDFLAGS="-L$DIR/zlib/lib -L$DIR/jpeg/lib"
+export CPFLAGS="-I$DIR/zlib/include -I$DIR/jpeg/include"
+./configure --prefix=$DIR/netcdf --disable-dap --disable-netcdf-4 --disable-shared  # Check if this should be with shared libraries
+make
+make install
+
+
 # hdf4 (Build netcdf first!!! and enable shared-libraries - Is Needed by OBSGRID later)
 cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES
 tar zxvf hdf-4.2.13.tar.gz
 cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES/hdf-4.2.13
-./configure --prefix=$DIR/hdf4 --with-zlib=$DIR/zlib --enable-fortran --with-jpeg=$DIR/jpeg   # --> Use this with gcc-4.8.5
-./configure --prefix=$DIR/hdf4 --with-zlib=$DIR/zlib --enable-fortran --with-jpeg=$DIR/jpeg   --with-gnu-ld    # --> Use this with gcc-9.2.0
-./configure --prefix=$DIR/hdf4 --with-zlib=$DIR/zlib --disable-fortran --with-jpeg=$DIR/jpeg   --enable-shared --with-gnu-ld    # --> Use this with gcc-9.2.0
+# ./configure --prefix=$DIR/hdf4 --with-zlib=$DIR/zlib --enable-fortran --with-jpeg=$DIR/jpeg   # --> Use this with gcc-4.8.5 (DOES NOT WORK WITH OBSGRID)
+# ./configure --prefix=$DIR/hdf4 --with-zlib=$DIR/zlib --enable-fortran --with-jpeg=$DIR/jpeg   --with-gnu-ld    # --> Use this with gcc-9.2.0 (DOES NOT WORK WITH OBSGRID)
+./configure --prefix=$DIR/hdf4 --with-zlib=$DIR/zlib --disable-fortran --with-jpeg=$DIR/jpeg --enable-shared --with-gnu-ld    # --> Use this with gcc-9.2.0 (THIS ONE WORKS!)
 make 
 make install
 cd ..
@@ -434,17 +451,6 @@ cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES/hdf5-1.10.4
 make 
 make install
 cd ..
-
-# netcdf
-cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES
-tar zxvf netcdf-4.1.3.tar.gz
-cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES/netcdf-4.1.3
-export LDFLAGS="-L$DIR/zlib/lib -L$DIR/jpeg/lib"
-export CPFLAGS="-I$DIR/zlib/include -I$DIR/jpeg/include"
-./configure --prefix=$DIR/netcdf --disable-dap --disable-netcdf-4 --disable-shared
-make
-make install
-
 
 # libpng
 cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES
@@ -610,6 +616,17 @@ build completed: Thu Jul 22 17:32:15 UTC 2021
 ```
 $ cd $HOME/wrfpoc/zen3/Build_WRF/WPS
 $ ./configure
+```
+ 1.  Linux x86_64, gfortran    (serial)
+ 2.  Linux x86_64, gfortran    (serial_NO_GRIB2)
+ 3.  Linux x86_64, gfortran    (dmpar)
+ 4.  Linux x86_64, gfortran    (dmpar_NO_GRIB2)
+ 5.  Linux x86_64, PGI compiler   (serial)
+ 6.  Linux x86_64, PGI compiler   (serial_NO_GRIB2)
+...
+--> Select Option 3
+
+```
 $ vi configure.wps
 ```
 Replace the file `configure.wps` with the following values:
@@ -651,26 +668,45 @@ $ sudo yum install cairo-devel -y
 ```
 DEBUGGING
 ```
-$ sudo yum install hdf-devel.x86_64 -y
-$ conda install hdf4
-
 $ source ~/anaconda3/bin/activate
 $ conda create -n ncl_stable -c conda-forge ncl
 $ conda activate ncl_stable
+
 $ cd $HOME/wrfpoc/zen3/Build_WRF/OBSGRID
 $ export FCFLAGS="-w -Wno-argument-mismatch -O2"
 $ export FFLAGS="-w -Wno-argument-mismatch -O2"
-
-$ ./configure
-$ ./compile
-
 ```
-/bin/ld: cannot find -lncarg
-/bin/ld: cannot find -lncarg_gks
-/bin/ld: cannot find -lncarg_c
+Run the configuration to generate the configure.oa and we will amend the file before compiling. 
+```
+$ ./configure
+```
+Edit the configure.oa file and replace the following lines:
+```
+NETCDF_LIBS     =       -L${NETCDF}/lib -lnetcdf -lnetcdff
+NETCDF_INC      =       -I${NETCDF}/include
+NCARG_LIBS      =       -L${NCARG_ROOT}/lib -lncarg -lncarg_gks -lncarg_c -lX11 -lm -lcairo -lfreetype
 
-collect2: error: ld returned 1 exit status
-make: [plot_soundings.exe] Error 1 (ignored)
+FC              =       gfortran
+FFLAGS          =       -ffree-form -O -fconvert=big-endian -frecord-marker=4
+F77FLAGS        =       -ffixed-form -O -fconvert=big-endian -frecord-marker=4
+FNGFLAGS        =       $(FFLAGS)
+LDFLAGS         =
+CC              =       gcc
+CFLAGS          =
+CPP             =       cpp -P -traditional
+CPPFLAGS        =
+```
+
+Now compile:
+```
+$ ./compile
+```
+The exe files should have been generated now.
+```
+$ ls -l *.exe
+lrwxrwxrwx 1 azureuser azureuser 15 Sep  6 15:43 obsgrid.exe -> src/obsgrid.exe
+lrwxrwxrwx 1 azureuser azureuser 18 Sep  6 15:43 plot_level.exe -> src/plot_level.exe
+lrwxrwxrwx 1 azureuser azureuser 22 Sep  6 15:43 plot_soundings.exe -> src/plot_soundings.exe
 ```
 
 #### 3. VPRMpreproc_R99 #####
