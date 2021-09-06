@@ -616,15 +616,14 @@ build completed: Thu Jul 22 17:32:15 UTC 2021
 ```
 $ cd $HOME/wrfpoc/zen3/Build_WRF/WPS
 $ ./configure
-```
  1.  Linux x86_64, gfortran    (serial)
  2.  Linux x86_64, gfortran    (serial_NO_GRIB2)
  3.  Linux x86_64, gfortran    (dmpar)
  4.  Linux x86_64, gfortran    (dmpar_NO_GRIB2)
  5.  Linux x86_64, PGI compiler   (serial)
  6.  Linux x86_64, PGI compiler   (serial_NO_GRIB2)
-...
---> Select Option 3
+ 
+ Select Option 3
 
 ```
 $ vi configure.wps
@@ -663,11 +662,6 @@ It requires cairo-devel libaries and  [NCL libraries ](https://www.ncl.ucar.edu/
 NCL Libraries requires also JPEG, ZLIB,Cairo, NetCDF, HDF-4 plus some optional external packages. 
 ```
 $ sudo yum install cairo-devel -y
-
-
-```
-DEBUGGING
-```
 $ source ~/anaconda3/bin/activate
 $ conda create -n ncl_stable -c conda-forge ncl
 $ conda activate ncl_stable
