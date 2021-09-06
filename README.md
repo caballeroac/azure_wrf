@@ -657,10 +657,22 @@ $ find ./ -name "*.exe"
 
 #### 2. OBSGRID #####
 
-It requires cairo-devel libaries and  [NCL libraries ](https://www.ncl.ucar.edu/Download/build_from_src.shtml)
-NCL Libraries requires also JPEG, ZLIB,Cairo, NetCDF, HDF-4 plus some optional external packages. 
+It requires cairo-devel libaries and  [NCL libraries ](https://www.ncl.ucar.edu/Download/build_from_src.shtml). 
+
+NCL Libraries requires also JPEG, ZLIB,Cairo, NetCDF, HDF-4 plus some optional external packages. We will use conda for the installation of the libraries.
+
+
+To install conda we will follow the instructions in [NCL]https://www.ncl.ucar.edu/Download/conda.shtml:
+
+
 ```
 $ sudo yum install cairo-devel -y
+
+$ cd /tmp
+$ curl -O https://repo.anaconda.com/archive/Anaconda3-5.3.1-Linux-x86_64.sh
+$ bash Anaconda3-5.3.1-Linux-x86_64.sh
+$ source ~/.bashrc
+
 $ source ~/anaconda3/bin/activate
 $ conda create -n ncl_stable -c conda-forge ncl
 $ conda activate ncl_stable
