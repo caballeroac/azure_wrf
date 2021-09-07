@@ -487,7 +487,23 @@ make install
 cd ..
 
 
-# Libraries compatibility tests
+# OpenSSL (Needed to install some Libraries in R S)  --- REMOVE IT, WILL BE INSTALLED WITH CONDA ---
+cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES
+wget https://ftp.openssl.org/source/old/1.1.1/openssl-1.1.1.tar.gz
+tar -zxvf openssl-1.1.1.tar.gz
+cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES/openssl-1.1.1/
+./config --prefix=/usr --openssldir=/etc/ssl --libdir=lib no-shared zlib-dynamic
+make -j8
+make test -j8
+sudo make install
+export LD_LIBRARY_PATH=/usr/local/lib:/usr/local/lib64:$LD_LIBRARY_PATH
+
+
+
+#
+# Libraries compatibility tests  (OPTIONAL)
+#
+
 $ cd $HOME/wrfpoc/zen3/TESTS
 $ wget http://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_NETCDF_MPI_tests.tar
 $ tar -xvf Fortran_C_NETCDF_MPI_tests.tar
@@ -717,10 +733,50 @@ lrwxrwxrwx 1 azureuser azureuser 22 Sep  6 15:43 plot_soundings.exe -> src/plot_
 
 #### 3. VPRMpreproc_R99 #####
 
-VPRMpreproc_R99.tar
+VPRMpreproc_R99.tar 
+
+WRF-VRPM requires multiple pacakges:
+- HDF5 (Installed Above)
+- H4toH5 
+- MODIS LDOPE Tool (provided in tar file)
+- MODIS MRT (provided in tar file)
+- NETCDF  (Installed Above)
+- R  (sudo yum install R --> Takes a couple of minutes. Create Custom Image??)
+- Rmap package for R [JGRI/rmap](https://github.com/JGCRI/rmap)
+- HDF Package for R
+- NETCDF package for R
+
 ```
-TBD
+# R, Rmap, HFD and NETCDF for R packages:
+
+DEBUG:
+$ source ~/anaconda3/bin/activate
+$ conda install -c r r-devtools 
+
+
+
+$ sudo yum install libcurl-devel.x86_64 -y
+$ sudo yum -y install R 
+$ export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/usr/share/pkgconfig/
+$ export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/usr/lib/x86_64-linux-gnu/pkgconfig/
+$ export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/usr/lib/pkgconfig/
+$ R
+> remotes::install_github("gaborcsardi/parsedate@f2da982")
+> install.packages("rematch2")
+> install.packages("testthat")
+> install.packages("devtools")
+> devtools::install_github("JGCRI/rgcam")
+> devtools::install_github("JGCRI/rmap")
+> q()
+
 ```
+
+```
+$ cd $HOME/wrfpoc/zen3/Build_WRF/VPRM
+tar zxvf 
+
+```
+
 MRT_32bit_i386_static_patched.tar
 ```
 $ sh ./install
