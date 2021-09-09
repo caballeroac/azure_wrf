@@ -761,6 +761,7 @@ $ sudo yum install ImageMagick-c++-devel.x86_64 -y
 $ yum install -y geos-devel.x86_64
 $ yum install -y gdal-devel.x86_64
 $ sudo yum install proj-devel.x86_64 -y
+$ sudo yum install netcdf-devel.x86_64 -y
 
 
 
@@ -777,7 +778,17 @@ $ sudo -i R
 > install.packages('rgdal', type = "source", configure.args=c('--with-proj-include=/usr/local/include','--with-proj-lib=/usr/local/lib'))
 > devtools::install_github("JGCRI/rgcam")
 > devtools::install_github("JGCRI/rmap")
+
+# HFD for R
+> install.packages("BiocManager")
+> BiocManager::install("rhdf5")
 > q()
+
+> install.packages("hdf5r")   --> Preferred
+
+> install.packages("RNetCDF")   or
+> devtools::install_github("hhoeflin/hdf5r", ref="feature/hdf5r-optional")
+
 
 ```
 
