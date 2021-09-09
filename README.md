@@ -750,21 +750,31 @@ WRF-VRPM requires multiple pacakges:
 # R, Rmap, HFD and NETCDF for R packages:
 
 DEBUG:
+
+$ yum install libgit2-devel -y 
 $ source ~/anaconda3/bin/activate
 $ conda install -c r r-devtools 
 
 
-
 $ sudo yum install libcurl-devel.x86_64 -y
+$ sudo yum install ImageMagick-c++-devel.x86_64 -y 
+$ yum install -y geos-devel.x86_64
+$ yum install -y gdal-devel.x86_64
+$ sudo yum install proj-devel.x86_64 -y
+
+
+
 $ sudo yum -y install R 
 $ export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/usr/share/pkgconfig/
 $ export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/usr/lib/x86_64-linux-gnu/pkgconfig/
 $ export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/usr/lib/pkgconfig/
-$ R
+$ sudo -i R
+
 > remotes::install_github("gaborcsardi/parsedate@f2da982")
 > install.packages("rematch2")
 > install.packages("testthat")
 > install.packages("devtools")
+> install.packages('rgdal', type = "source", configure.args=c('--with-proj-include=/usr/local/include','--with-proj-lib=/usr/local/lib'))
 > devtools::install_github("JGCRI/rgcam")
 > devtools::install_github("JGCRI/rmap")
 > q()
