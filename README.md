@@ -826,13 +826,23 @@ Installing /usr/local/share/man/man3/Cartography::Projection::GCTP.3pm
 Appending installation info to /usr/lib64/perl5/perllocal.pod
 
 
-# PROJ 7
+# SQLITE (Required by PROJ 7, sqlite3 >= 3.11' but version of SQLite is 3.7.17)
+cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES
+wget https://www.sqlite.org/2021/sqlite-autoconf-3360000.tar.gz
+tar zxvf sqlite-autoconf-3360000.tar.gz
+cd sqlite-autoconf-3360000
+./configure --prefix=$DIR/sqlite336
+make
+make install
+
+# PROJ 7 (Required by GAL)
 cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES
 wget https://download.osgeo.org/proj/proj-6.3.2.tar.gz
 tar zxvf proj-6.3.2.tar.gz
 cd proj-6.3.2/
-./configure --prefix=$DIR/proj
-
+./configure --prefix=$DIR/proj SQLITE3_CFLAGS="-I$SQLITE3/include" SQLITE3_LIBS="-L$SQLITE3/lib -lsqlite3"
+make
+make install
  
 # GDAL
 cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES
