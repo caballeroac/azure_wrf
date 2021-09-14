@@ -41,7 +41,7 @@ sudo yum -y install clang
 sudo yum -y install python3
 sudo yum -y install tcsh
 sudo yum -y install java
-
+sudo yum -y install perl-devel 
 
 
 if [[ -e /dev/nvme0n1 ]]; then
@@ -487,16 +487,23 @@ make install
 cd ..
 
 
-# OpenSSL (Needed to install some Libraries in R S)  --- REMOVE IT, WILL BE INSTALLED WITH CONDA ---
+# H4toH5 (Just download the precompiled binaries for Linux )
 cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES
-wget https://ftp.openssl.org/source/old/1.1.1/openssl-1.1.1.tar.gz
-tar -zxvf openssl-1.1.1.tar.gz
-cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES/openssl-1.1.1/
+wget https://support.hdfgroup.org/ftp/HDF5/releases/tools/h4toh5/h4toh5-2.2.5/bin/h4h5tools-1.10.6-2.2.5-centos7_64.tar.gz
+tar -zxvf h4h5tools-1.10.6-2.2.5-centos7_64.tar.gz
+cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES/hdf
+./H4H5-2.2.5-Linux.sh   --> Accept License and location
+cd H4H5-2.2.5-Linux/HDF_Group/H4H5/2.2.5/bin
+./h4toh5convert -h
+
+
+# DELETE !!!!! 
 ./config --prefix=/usr --openssldir=/etc/ssl --libdir=lib no-shared zlib-dynamic
 make -j8
 make test -j8
 sudo make install
 export LD_LIBRARY_PATH=/usr/local/lib:/usr/local/lib64:$LD_LIBRARY_PATH
+
 
 
 
@@ -678,7 +685,6 @@ It requires cairo-devel libaries and  [NCL libraries ](https://www.ncl.ucar.edu/
 
 NCL Libraries requires also JPEG, ZLIB,Cairo, NetCDF, HDF-4 plus some optional external packages. We will use conda for the installation of the libraries.
 
-
 To install conda we will follow the instructions in [NCL]https://www.ncl.ucar.edu/Download/conda.shtml:
 
 
@@ -733,9 +739,7 @@ lrwxrwxrwx 1 azureuser azureuser 22 Sep  6 15:43 plot_soundings.exe -> src/plot_
 
 #### 3. VPRMpreproc_R99 #####
 
-VPRMpreproc_R99.tar 
-
-WRF-VRPM requires multiple pacakges:
+WRF-VRPM Preproc_R99 requires multiple pacakges:
 - HDF5 (Installed Above)
 - H4toH5 
 - MODIS LDOPE Tool (provided in tar file)
@@ -747,22 +751,20 @@ WRF-VRPM requires multiple pacakges:
 - NETCDF package for R
 
 ```
-# R, Rmap, HFD and NETCDF for R packages:
 
-DEBUG:
+# R, Rmap, HFD and NETCDF for R packages:
 
 $ yum install libgit2-devel -y 
 $ source ~/anaconda3/bin/activate
-$ conda install -c r r-devtools 
+$ conda install -c r r-devtools    --> DELETE THIS LINE
 
-
+# Dependencies needed by some R packages
 $ sudo yum install libcurl-devel.x86_64 -y
 $ sudo yum install ImageMagick-c++-devel.x86_64 -y 
 $ yum install -y geos-devel.x86_64
 $ yum install -y gdal-devel.x86_64
 $ sudo yum install proj-devel.x86_64 -y
 $ sudo yum install netcdf-devel.x86_64 -y
-
 
 
 $ sudo yum -y install R 
@@ -780,33 +782,106 @@ $ sudo -i R
 > devtools::install_github("JGCRI/rmap")
 
 # HFD for R
-> install.packages("BiocManager")
-> BiocManager::install("rhdf5")
+> install.packages("hdf5r")   --> Preferred
+> install.packages("RNetCDF")  
 > q()
 
-> install.packages("hdf5r")   --> Preferred
-
-> install.packages("RNetCDF")   or
-> devtools::install_github("hhoeflin/hdf5r", ref="feature/hdf5r-optional")
+```
 
 
 ```
 
-```
+# MODIS LDOPE Tool (provided in tar file)
+
+# Pre-Requisites for LDOPE:
+# 1. hdf4  (installed above)
+
+# 2. HDF-EOS2
+cd $HOME/wrfpoc/zen3/Build_WRF/VPRM
+curl -o HDF-EOS2.20v1.00.tar.Z https://git.earthdata.nasa.gov/rest/git-lfs/storage/DAS/hdfeos/cb0f900d2732ab01e51284d6c9e90d0e852d61bba9bce3b43af0430ab5414903?response-content-disposition=attachment%3B%20filename%3D%22HDF-EOS2.20v1.00.tar.Z%22%3B%20filename*%3Dutf-8%27%27HDF-EOS2.20v1.00.tar.Z
+tar zxvf HDF-EOS2.20v1.00.tar.Z
+cd hdfeos
+./configure --prefix=$DIR/hdfeos2 --with-hdf4=$HDF4 --enable-fortran
+make install
+
+# 3. szip
+cd $HOME/wrfpoc/zen3/Build_WRF/VPRM
+wget https://support.hdfgroup.org/ftp/lib-external/szip/2.1.1/src/szip-2.1.1.tar.gz
+tar zxvf szip-2.1.1.tar.gz
+cd szip-2.1.1
+./configure --prefix=$DIR/szip
+make install
+
+
+# Gctp
+cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES
+wget https://cpan.metacpan.org/authors/id/D/DS/DSTAHLKE/Cartography-Projection-GCTP-0.03.tar.gz
+tar zxvf Cartography-Projection-GCTP-0.03.tar.gz
+cd Cartography-Projection-GCTP-0.03
+perl Makefile.PL
+make
+sudo make install
+
+Installing /usr/local/share/man/man3/Cartography::Projection::GCTP.3pm
+Appending installation info to /usr/lib64/perl5/perllocal.pod
+
+
+# PROJ 7
+cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES
+wget https://download.osgeo.org/proj/proj-6.3.2.tar.gz
+tar zxvf proj-6.3.2.tar.gz
+cd proj-6.3.2/
+./configure --prefix=$DIR/proj
+
+ 
+# GDAL
+cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES
+wget https://github.com/OSGeo/gdal/releases/download/v3.3.2/gdal-3.3.2.tar.gz
+tar zxvf gdal-3.3.2.tar.gz
+cd gdal-3.3.2
+./configure --prefix=$DIR/gdal 
+
+
+
+# LDOPE TOOL
+
+cd $HOME/wrfpoc/zen3/Build_WRF/VPRM
+wget https://www.bgc-jena.mpg.de/bgc-systems/uploads/Download/VPRMpreproc/ldope_32bit_i386_static_patched.tar.bz2
+bunzip2 ldope_32bit_i386_static_patched.tar.bz2
+tar xvf ldope_32bit_i386_static_patched.tar
+cd ldope_32bit_i386_static_patched
+
+
+
+
+
+
+# MODIS MRT (provided in tar file)
+cd $HOME/wrfpoc/zen3/Build_WRF/VPRM/MRT_32bit_i386_static_patched
+sh install
+
+1. The unzip executable and the MRTLinux.zip installation zip file
+   must be present in the current directory.
+2. You must know the directory path where the MRT is to be installed. --> /shared/home/azureuser/wrfpoc/zen3/Build_WRF/VPRM/MRT
+3. You must know the path to the Java bin directory on your system. --> /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.302.b08-0.el7_9.x86_64/jre/bin
+
+At the end:
+The .profile and .bash_profile files have the following lines appended:
+
+    PATH=$PATH:/shared/home/azureuser/wrfpoc/zen3/Build_WRF/VPRM/MRT/bin
+    MRTDATADIR=/shared/home/azureuser/wrfpoc/zen3/Build_WRF/VPRM/MRT/data
+    export MRTDATADIR
+
+
+# VPRRM PreProc 
 $ cd $HOME/wrfpoc/zen3/Build_WRF/VPRM
-tar zxvf 
+wget https://www.bgc-jena.mpg.de/bgc-systems/uploads/Download/VPRMpreproc/VPRMpreproc_LCC_R99.tar.bz2
+
 
 ```
 
-MRT_32bit_i386_static_patched.tar
-```
-$ sh ./install
-```
 
-ldope_32bit_i386_static_patched.tar
-```
-$ sh ./LDOPE_Linux_install.sh
-```
+
 
 #### 4. MOZBC #####
 ```
