@@ -246,7 +246,7 @@ wget https://www2.mmm.ucar.edu/wrf/src/conus2.5km.tar.gz
 ```
 
 
-### WRF 3.9.1 ####
+### WRF 3.9.1 ###
 
 ```
 $ screen 
@@ -787,10 +787,9 @@ $ sudo -i R
 > q()
 
 ```
-
+##### MODIS LDOPE Tool
 
 ```
-
 # MODIS LDOPE Tool (provided in tar file)
 
 # Pre-Requisites for LDOPE:
@@ -852,7 +851,7 @@ cd gdal-3.3.2
 ./configure --prefix=$DIR/gdal 
 ```
 
-LDOPE TOOL
+##### LDOPE TOOL
 ```
 
 # LDOPE TOOL
@@ -909,11 +908,7 @@ EOSLIB = -L$(EOSLIBDIR) -lhdfeos -lGctp
 Now run `./LDOPE_Linux_install.sh` and provide the path for HDF4: in this case `/shared/home/azureuser/wrfpoc/zen3/Build_WRF/LIBRARIES/hdf4`
 
 
-
-
-
-
-# MODIS MRT (provided in tar file)
+#### MODIS MRT (provided in tar file)
 
 ```
 # MODIS MRT (provided in tar file)
@@ -936,12 +931,10 @@ The .profile and .bash_profile files have the following lines appended:
 # VPRRM PreProc 
 $ cd $HOME/wrfpoc/zen3/Build_WRF/VPRM
 wget https://www.bgc-jena.mpg.de/bgc-systems/uploads/Download/VPRMpreproc/VPRMpreproc_LCC_R99.tar.bz2
+cd VPRMpreproc_R99
 
 
 ```
-
-
-
 
 #### 4. MOZBC #####
 ```
