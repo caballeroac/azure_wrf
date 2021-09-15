@@ -850,22 +850,72 @@ wget https://github.com/OSGeo/gdal/releases/download/v3.3.2/gdal-3.3.2.tar.gz
 tar zxvf gdal-3.3.2.tar.gz
 cd gdal-3.3.2
 ./configure --prefix=$DIR/gdal 
+```
 
-
+LDOPE TOOL
+```
 
 # LDOPE TOOL
- sudo yum install -y multilib-rpm-config.noarch
+ sudo yum install -y multilib-rpm-config.noarch  --> Not really needed
 cd $HOME/wrfpoc/zen3/Build_WRF/VPRM
 wget https://www.bgc-jena.mpg.de/bgc-systems/uploads/Download/VPRMpreproc/ldope_32bit_i386_static_patched.tar.bz2
 bunzip2 ldope_32bit_i386_static_patched.tar.bz2
 tar xvf ldope_32bit_i386_static_patched.tar
 cd ldope_32bit_i386_static_patched
 
+```
+Edit the file `/shared/home/azureuser/wrfpoc/zen3/Build_WRF/LIBRARIES/hdfeos2/include/gctp_prototypes.h` and rename the following functions:
+```
+int sinfor(double lon, double lat, double *x, double *y);
+int sinforint(double r_maj, double r_min, double center_long,
+              double false_east, double false_north);
+int isinusfor(double lon, double lat, double *x, double *y);
+int isinusforinit(double sphere, double lon_cen_mer, double false_east,
+                   double false_north, double dzone, double djustify);
+```
+by the following: 
+```
+int sinfor_tmp(double lon, double lat, double *x, double *y);
+int sinforint_tmp(double r_maj, double r_min, double center_long,
+              double false_east, double false_north);
+int isinusfor_tmp(double lon, double lat, double *x, double *y);
+int isinusforinit_tmp(double sphere, double lon_cen_mer, double false_east,
+                   double false_north, double dzone, double djustify);
+
+```
+Now make the following changes in ./src/Makefile
+```
+#LOC = /Net/Groups
+
+HDF = $(DIR)/hdf4
+
+BINDIR = ../bin
+OBJDIR = ../obj
+
+EXTRA = -O
+CC1     = $(CC)
+
+EOSINC = $(DIR)/hdfeos2/include
+EOSLIBDIR =  $(DIR)/hdfeos2/lib
+
+INCDIR  = -I$(HDF)/include
+EOSINCDIR = -I$(EOSINC)
+NCFLAGS = $(EXTRA) $(INCDIR) $(EOSINCDIR)
+
+LIB   = -L/opt/gcc-9.2.0/lib64 -L/usr/lib64 -L/usr/local/lib -L$(HDF)/lib -L$(EOSLIBDIR) -L$(DIR/szip)/lib -L$(DIR/jpeg)/lib -lmfhdf -ljpeg -lGctp -lhdfeos -ldf -lz -lsz
+EOSLIB = -L$(EOSLIBDIR) -lhdfeos -lGctp
+
+```
+Now run `./LDOPE_Linux_install.sh` and provide the path for HDF4: in this case `/shared/home/azureuser/wrfpoc/zen3/Build_WRF/LIBRARIES/hdf4`
 
 
 
 
 
+
+# MODIS MRT (provided in tar file)
+
+```
 # MODIS MRT (provided in tar file)
 cd $HOME/wrfpoc/zen3/Build_WRF/VPRM/MRT_32bit_i386_static_patched
 sh install
