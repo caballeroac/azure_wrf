@@ -61,192 +61,8 @@ SELINUX=disabled
 EOF
 ```
 
-### 3. Spack Installation and Configuration
 
-We will not use the default Spack installation, instead we will use the installation procedure described in [AzureHPC](https://github.com/Azure/azurehpc.git) 
-
-From the Slurm Head node we will create the `/shared/apps` direcotry and will clone the AzureHPC reposiory. 
-```
-sudo mkdir /shared/apps/
-sudo chown azureuser:azureuser /shared/apps/
-cd /shared/apps
-sudo yum install git -y 
-git clone https://github.com/Azure/azurehpc.git
-```
-
-Now we have to make a change before we install Spack:
-* Edit the file `/shared/apps/azurehpc/apps/spack/build_spack.sh` and change the `SHARED_APP` variable to point to to /shared/app. So `SHARED_APP=/shared/apps`
-
-Install Spack with the following command:
-```
-cd /shared/apps/azurehpc/apps/spack
-./build_spack.sh hbv2
-```
-
-Finally, make the last change before installing applications:
-* Change the build_stage for a fast complilation of the applications. We will use the NVMe drives allocated in the HB120v3 nodes as scratch, so in the file `/shared/apps/spack/0.16.0/spack/etc/spack/defaults/config.yaml` make the following changes:
-```
-build_stage:
-    - /mnt/nvme/scratch   # Note that the directory is created with cloud-init on VM startup.
-```
-Also change the number of threads for compilation:
-```
-build_jobs: 16
-```
-
-### 4. WRF Installation
-
-We will run WRF on the HB series so we will use one of the HB120v3 as "compilation node" to be consistent with the architecture. So first thing is to sumbit an Interactive job to allocate a node in the cluster to compile WRF and the dependencies needed:
-
-```
-screen  # Optional, but is a good practice in case
-
-# With Slurm 
-salloc -N1 # This command will take 8-10 minutes until
-srun hostname
-ssh ip-0A060005   # Replace ip-0A060005 with the output of the srun commnad
-
-# With PBSPro
-qsub -I -q workq -l walltime=06:00:00
-```
-Load spack environment settings:
-```
-. /shared/apps/spack/0.16.0/spack/share/spack/setup-env.sh
-```
-
-Now we can check what options are available for WRF with `spack info wrf` before we start:
-```
-Package:   wrf
-
-Description:
-    The Weather Research and Forecasting (WRF) Model is a next-generation
-    mesoscale numerical weather prediction system designed for both
-    atmospheric research and operational forecasting applications.
-
-Homepage: https://www.mmm.ucar.edu/weather-research-and-forecasting-model
-
-Maintainers: @MichaelLaufer @ptooley
-
-Tags:
-    None
-
-Preferred version:
-    4.2        https://github.com/wrf-model/WRF/archive/v4.2.tar.gz
-
-Safe versions:
-    4.2        https://github.com/wrf-model/WRF/archive/v4.2.tar.gz
-    4.0        https://github.com/wrf-model/WRF/archive/v4.0.tar.gz
-    3.9.1.1    https://github.com/wrf-model/WRF/archive/V3.9.1.1.tar.gz
-
-Variants:
-    Name [Default]            Allowed values          Description
-    ======================    ====================    ========================
-
-    build_type [dmpar]        serial, smpar,
-                              dmpar, dm+sm
-    compile_type [em_real]    em_real,
-                              em_quarter_ss,
-                              em_b_wave, em_les,
-                              em_heldsuarez,
-                              em_tropical_cyclone,
-                              em_hill2d_x,
-                              em_squall2d_x,
-                              em_squall2d_y,
-                              em_grav2d_x,
-                              em_seabreeze2d_x,
-                              em_scm_xy
-    nesting [basic]           no_nesting, basic,
-                              preset_moves,
-                              vortex_following
-    pnetcdf [on]              on, off                 Parallel IO support
-                                                      through Pnetcdf library
-
-Installation Phases:
-    configure    build    install
-
-Build Dependencies:
-    hdf5    libpng    libtool  mpi       netcdf-fortran   perl       tcsh  zlib
-    jasper  libtirpc  m4       netcdf-c  parallel-netcdf  pkgconfig  time
-
-Link Dependencies:
-    hdf5    libpng    mpi       netcdf-fortran   perl
-    jasper  libtirpc  netcdf-c  parallel-netcdf  zlib
-
-Run Dependencies:
-    None
-
-Virtual Packages:
-    None
-
-```
-
-Load gcc 9.2 compilers and OpenMPI before we start with wrf installation:
-```
-. /shared/apps/spack/0.16.0/spack/share/spack/setup-env.sh
-module avail
-module load gcc-9.2.0
-module load mpi/openmpi
-module load amd/aocl
-
-
-
-# spack external find (optional)
-```
-
-Now install wrf application with the following options:
-``` 
-alias python='/usr/bin/python3.6'
-spack install wrf %gcc@9.2.0 ^openmpi@4.1.0    # Note that could take few hours to install and compile all dependencies.
-```
-It will give a error in line 292 when building. There is a bug in the WRF version, just replace the lines as indicated below:
-```
-         # num of compile jobs capped at 20 in wrf
--        num_jobs = str(min(int(make_jobs, 10)))
-+        num_jobs = str(min(int(make_jobs), 10))
- 
-         # Now run the compile script and track the output to check for
-         # failure/success We need to do this because upstream use `make -i -k`
-```
-Ammend in the same file in line 282
-```
-result_buf = csh( 
-     "./compile", 
-     "-j", 
-     num_jobs, 
-     self.spec.variants["compile_type"].value, 
-     output=str, 
-     error=str 
- ) 
-```
-Finally run again the command to install spack: 
-```
-spack install wrf %gcc@9.2.0 ^openmpi@4.1.0
-```
-
-Now WRF should be available in the modules/spack:
-```
-[azureuser@ip-0A060007 wrf]$ spack find wrf
-==> 1 installed package
--- linux-centos7-zen2 / gcc@9.2.0 -------------------------------
-wrf@4.2
-
-$ spack load wrf@4.2
-
-# Locate and go to WRF installation directory
-$ spack cd -i wrf@4.2
-$ pwd
-$ ls -l ./main/wrf.exe
--rwxr-xr-x. 1 azureuser azureuser 46545352 Jul  8 16:50 ./main/wrf.exe
-```
-
-#### Benchmarks
-The Conus 2.5Km test is available from www2.mmm.ucar.edu 
-```
-wget https://www2.mmm.ucar.edu/wrf/src/conus2.5km.tar.gz
-```
-
-
-### WRF 3.9.1 ###
+### 1. WRF 3.9.1 ###
 
 ```
 $ screen 
@@ -518,8 +334,9 @@ sudo make install
 export LD_LIBRARY_PATH=/usr/local/lib:/usr/local/lib64:$LD_LIBRARY_PATH
 
 
-
-
+```
+OPTIONAL
+```
 #
 # Libraries compatibility tests  (OPTIONAL)
 #
@@ -554,8 +371,8 @@ $ mpirun -np 2 ./a.out
  SUCCESS test 2 fortran + c + netcdf + mpi
  SUCCESS test 2 fortran + c + netcdf + mpi
  
- 
- 
+ ```
+``` 
 # BUILDING WRF_V3.9.1  
 # Upload Model PAckage.zip to the server and uncompres. Then copy file WRFV3.9.1.tar.gz
 $ cd $HOME/wrfpoc/zen3/Build_WRF
@@ -649,8 +466,8 @@ build completed: Thu Jul 22 17:32:15 UTC 2021
 
 ```
 
-### Pre-Processing Tools ####
-#### 1. WPS #####
+### 2. Pre-Processing Tools ####
+#### 2.1 WPS #####
 
 ```
 $ cd $HOME/wrfpoc/zen3/Build_WRF/WPS
@@ -694,7 +511,7 @@ $ find ./ -name "*.exe"
 ./ungrib/g1print.exe
 ```
 
-#### 2. OBSGRID #####
+#### 2.2 OBSGRID #####
 
 It requires cairo-devel libaries and  [NCL libraries ](https://www.ncl.ucar.edu/Download/build_from_src.shtml). 
 
@@ -752,7 +569,7 @@ lrwxrwxrwx 1 azureuser azureuser 18 Sep  6 15:43 plot_level.exe -> src/plot_leve
 lrwxrwxrwx 1 azureuser azureuser 22 Sep  6 15:43 plot_soundings.exe -> src/plot_soundings.exe
 ```
 
-#### 3. VPRMpreproc_R99 #####
+#### 2.3 VPRMpreproc_R99 #####
 
 WRF-VRPM Preproc_R99 requires multiple pacakges:
 - HDF5 (Installed Above)
@@ -802,7 +619,7 @@ $ sudo -i R
 > q()
 
 ```
-##### MODIS LDOPE Tool
+##### 2.3.1 MODIS LDOPE Tool
 
 ```
 # MODIS LDOPE Tool (provided in tar file)
@@ -866,7 +683,7 @@ cd gdal-3.3.2
 ./configure --prefix=$DIR/gdal 
 ```
 
-##### LDOPE TOOL
+Finally LDOPE TOOL
 ```
 
 # LDOPE TOOL
@@ -923,7 +740,7 @@ EOSLIB = -L$(EOSLIBDIR) -lhdfeos -lGctp
 Now run `./LDOPE_Linux_install.sh` and provide the path for HDF4: in this case `/shared/home/azureuser/wrfpoc/zen3/Build_WRF/LIBRARIES/hdf4`
 
 
-#### MODIS MRT (provided in tar file)
+#### 2.3.2 MODIS MRT (provided in tar file)
 
 ```
 # MODIS MRT (provided in tar file)
@@ -951,7 +768,7 @@ cd VPRMpreproc_R99
 
 ```
 
-#### 4. MOZBC #####
+#### 2.4 MOZBC #####
 ```
 $ cd $HOME/wrfpoc/zen3/Build_WRF/mozbc
 $ export NETCDF_DIR=$NETCDF
