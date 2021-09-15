@@ -372,7 +372,13 @@ export HDF5=$DIR/hdf5
 export OPENMPI=$DIR/openmpi
 export LIBPNG=$DIR/libpng
 export LIBPNGLIB=$DIR/libpng
-# export NCARG=$DIR/ncl --> done via anaconda
+export HDFEOS2=$DIR/hdfeos2
+export NCARG=$DIR/ncl
+export SZIP=$DIR/szip
+export JPEG=$DIR/jpeg
+export SQLITE3=$DIR/sqlite336
+export GDAL=$DIR/gdal
+
 
 # run-time linking   ${H5DIR}/lib
 export LD_LIBRARY_PATH=${HDF5}/lib:$LD_LIBRARY_PATH
@@ -383,7 +389,14 @@ export LD_LIBRARY_PATH=${FLEX_LIB_DIR}:$LD_LIBRARY_PATH
 export LD_LIBRARY_PATH=${FLEX_LIB_DIR}:$LD_LIBRARY_PATH
 export LD_LIBRARY_PATH=${OPENMPI}/lib:$LD_LIBRARY_PATH
 export LD_LIBRARY_PATH=${LIBPNG}/lib:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=${HDFEOS2}/lib:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=${SZIP}/lib:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=${SQLITE3}/lib:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=${GDAL}/lib:$LD_LIBRARY_PATH
 export LD_LIBRARY_PATH=/usr/lib64:$LD_LIBRARY_PATH
+
+# LDOPE
+export ANCPATH=$HOME/wrfpoc/zen3/Build_WRF/VPRM/ldope_32bit_i386_static_patched/ANCILLARY
 
 # WRF
 export WRFV3=$HOME/wrfpoc/zen3/Build_WRF/WRFV3
@@ -540,6 +553,8 @@ $ mpirun -np 2 ./a.out
  status =            2
  SUCCESS test 2 fortran + c + netcdf + mpi
  SUCCESS test 2 fortran + c + netcdf + mpi
+ 
+ 
  
 # BUILDING WRF_V3.9.1  
 # Upload Model PAckage.zip to the server and uncompres. Then copy file WRFV3.9.1.tar.gz
