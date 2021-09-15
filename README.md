@@ -801,7 +801,7 @@ cd $HOME/wrfpoc/zen3/Build_WRF/VPRM
 curl -o HDF-EOS2.20v1.00.tar.Z https://git.earthdata.nasa.gov/rest/git-lfs/storage/DAS/hdfeos/cb0f900d2732ab01e51284d6c9e90d0e852d61bba9bce3b43af0430ab5414903?response-content-disposition=attachment%3B%20filename%3D%22HDF-EOS2.20v1.00.tar.Z%22%3B%20filename*%3Dutf-8%27%27HDF-EOS2.20v1.00.tar.Z
 tar zxvf HDF-EOS2.20v1.00.tar.Z
 cd hdfeos
-./configure --prefix=$DIR/hdfeos2 --with-hdf4=$HDF4 --enable-fortran
+./configure --prefix=$DIR/hdfeos2 --with-hdf4=$HDF4 --enable-fortran --enable-install-include
 make install
 
 # 3. szip
@@ -854,7 +854,7 @@ cd gdal-3.3.2
 
 
 # LDOPE TOOL
-
+ sudo yum install -y multilib-rpm-config.noarch
 cd $HOME/wrfpoc/zen3/Build_WRF/VPRM
 wget https://www.bgc-jena.mpg.de/bgc-systems/uploads/Download/VPRMpreproc/ldope_32bit_i386_static_patched.tar.bz2
 bunzip2 ldope_32bit_i386_static_patched.tar.bz2
