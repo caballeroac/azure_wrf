@@ -10,7 +10,7 @@ Objective of this repository is to deploy a HPC cluster with Azure CycleCloud an
 * Azure Subcription
 * Quota allocated for the specialized HPC vm HB120v3 
 * Azure NetApp Files / Azure Files (NFS) / NFS on Azure Blob / Parallel Filesystem (Lustre/GPFS/BeeGFS...)
-* Service Principal contributor role or Managed Identity permissions
+* Service Principal contributor role or Managed Identity permissions for CycleCloud
 * TBD
 
 ## CycleCloud
@@ -213,6 +213,9 @@ export LD_LIBRARY_PATH=/usr/lib64:$LD_LIBRARY_PATH
 
 # LDOPE
 export ANCPATH=$HOME/wrfpoc/zen3/Build_WRF/VPRM/ldope_32bit_i386_static_patched/ANCILLARY
+
+# VPRMPreproc
+export VPRM=$HOME/wrfpoc/zen3/Build_WRF/VPRM/VPRMpreproc_R99
 
 # WRF
 export WRFV3=$HOME/wrfpoc/zen3/Build_WRF/WRFV3
@@ -764,6 +767,11 @@ The .profile and .bash_profile files have the following lines appended:
 $ cd $HOME/wrfpoc/zen3/Build_WRF/VPRM
 wget https://www.bgc-jena.mpg.de/bgc-systems/uploads/Download/VPRMpreproc/VPRMpreproc_LCC_R99.tar.bz2
 cd VPRMpreproc_R99
+vi config.r --> Replace the PATH to point to the right location 
+cp ./RSources/gridEurope.r.BAK ./RSources/gridEurope.r 
+vi ./RSources/gridEurope.r 
+./get_synmap.sh
+./compile.sh
 
 
 ```
