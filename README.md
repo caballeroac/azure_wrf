@@ -150,7 +150,7 @@ wget https://www.ijg.org/files/jpegsrc.v9d.tar.gz
 mv libpng-1.6.37.tar.gz\?download libpng-1.6.37.tar.gz
 
 ```
-Create a setevn.sh file:
+Create a setenv.sh file:
 ```
 $ vi ~/setenv.sh
 
