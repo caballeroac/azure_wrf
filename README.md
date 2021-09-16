@@ -572,7 +572,7 @@ lrwxrwxrwx 1 azureuser azureuser 18 Sep  6 15:43 plot_level.exe -> src/plot_leve
 lrwxrwxrwx 1 azureuser azureuser 22 Sep  6 15:43 plot_soundings.exe -> src/plot_soundings.exe
 ```
 
-#### 2.3 VPRMpreproc_R99 #####
+#### 2.3 VPRMpreproc_R99 Pre-Requisites #####
 
 WRF-VRPM Preproc_R99 requires multiple pacakges:
 - HDF5 (Installed Above)
@@ -762,7 +762,10 @@ The .profile and .bash_profile files have the following lines appended:
     MRTDATADIR=/shared/home/azureuser/wrfpoc/zen3/Build_WRF/VPRM/MRT/data
     export MRTDATADIR
 
+```
+#### 2.3.3 VPRMpreproc_R99 #####
 
+```
 # VPRRM PreProc 
 $ cd $HOME/wrfpoc/zen3/Build_WRF/VPRM
 wget https://www.bgc-jena.mpg.de/bgc-systems/uploads/Download/VPRMpreproc/VPRMpreproc_LCC_R99.tar.bz2
@@ -772,7 +775,6 @@ cp ./RSources/gridEurope.r.BAK ./RSources/gridEurope.r
 vi ./RSources/gridEurope.r 
 ./get_synmap.sh
 ./compile.sh
-
 
 ```
 
@@ -788,7 +790,6 @@ LIBS   = -L${NETCDF}/lib $(AR_FILES)
 INCLUDE_MODULES = -I${NETCDF}/include
 
 ```
-
 Now compile
 ```
 $ ./make_mozbc
