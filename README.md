@@ -765,6 +765,8 @@ The .profile and .bash_profile files have the following lines appended:
 ```
 #### 2.3.3 VPRMpreproc_R99 #####
 
+NOTE: This section has not been fully tested as it requires some MODIS data to be downloaded. 
+
 ```
 # VPRRM PreProc 
 $ cd $HOME/wrfpoc/zen3/Build_WRF/VPRM
