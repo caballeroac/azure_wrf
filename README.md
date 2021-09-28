@@ -475,6 +475,9 @@ build completed: Thu Jul 22 17:32:15 UTC 2021
 #### 2.1 WPS #####
 
 ```
+$ cd $HOME/wrfpoc/zen3/Build_WRF
+$ cp ~/model\ package/1.1\ WPS/WPSV3.9.1.TAR.gz . 
+$ tar zxvf WPSV3.9.1.TAR.gz
 $ cd $HOME/wrfpoc/zen3/Build_WRF/WPS
 $ ./configure
  1.  Linux x86_64, gfortran    (serial)
