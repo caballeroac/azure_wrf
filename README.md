@@ -160,7 +160,7 @@ ulimit -s unlimited
 
 export OPENSSL=openssl
 export YACC="yacc -d"
-export J="-j 6"
+export J="-j 12"
 
 export DIR=$HOME/wrfpoc/zen3/Build_WRF/LIBRARIES
 
@@ -179,8 +179,8 @@ export MPI_CXX=mpicxx
 export PATH=$DIR/openmpi/bin:$PATH
 export PATH=$DIR/netcdf/bin:$PATH
 export NETCDF=$DIR/netcdf
-export JASPERLIB=$DIR/grib2/lib
-export JASPERINC=$DIR/grib2/include
+export JASPERLIB=$DIR/jasper/lib
+export JASPERINC=$DIR/jasper/include
 export FLEX=$DIR/flex/bin/flex
 export FLEX_LIB_DIR=$DIR/flex/lib
 export HDF4=$DIR/hdf4
