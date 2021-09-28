@@ -540,7 +540,9 @@ $ source ~/anaconda3/bin/activate
 $ conda create -n ncl_stable -c conda-forge ncl
 $ conda activate ncl_stable
 
-$ cd $HOME/wrfpoc/zen3/Build_WRF/OBSGRID
+$ cd $HOME/wrfpoc/zen3/Build_WRF/
+$ cp ~/model-package/OBSGRID/OBSGRID.tar.gz .
+$ tar zxvf OBSGRID.tar.gz
 $ export FCFLAGS="-w -Wno-argument-mismatch -O2"
 $ export FFLAGS="-w -Wno-argument-mismatch -O2"
 ```
