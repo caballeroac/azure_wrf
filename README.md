@@ -543,12 +543,13 @@ $ conda activate ncl_stable
 $ cd $HOME/wrfpoc/zen3/Build_WRF/
 $ cp ~/model-package/OBSGRID/OBSGRID.tar.gz .
 $ tar zxvf OBSGRID.tar.gz
+$ cd $HOME/wrfpoc/zen3/Build_WRF/OBSGRID
 $ export FCFLAGS="-w -Wno-argument-mismatch -O2"
 $ export FFLAGS="-w -Wno-argument-mismatch -O2"
 ```
 Run the configuration to generate the configure.oa and we will amend the file before compiling. 
 ```
-$ ./configure
+$ ./configure      --> Option 2
 ```
 Edit the configure.oa file and replace the following lines:
 ```
