@@ -684,7 +684,7 @@ make install
 
 # PROJ 7 (Required by GAL)
 cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES
-wget https://download.osgeo.org/proj/proj-6.3.2.tar.gz
+wget https://download.osgeo.org/proj/proj-6.3.2.tar.gz --no-check-certificate
 tar zxvf proj-6.3.2.tar.gz
 cd proj-6.3.2/
 ./configure --prefix=$DIR/proj SQLITE3_CFLAGS="-I$SQLITE3/include" SQLITE3_LIBS="-L$SQLITE3/lib -lsqlite3"
