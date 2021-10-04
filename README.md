@@ -617,11 +617,11 @@ $ export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/usr/lib/x86_64-linux-gnu/pkgconfig/
 $ export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/usr/lib/pkgconfig/
 $ sudo -i R
 
-> remotes::install_github("gaborcsardi/parsedate@f2da982")
+> install.packages("devtools")
 > install.packages("rematch2")
 > install.packages("testthat")
-> install.packages("devtools")
 > install.packages('rgdal', type = "source", configure.args=c('--with-proj-include=/usr/local/include','--with-proj-lib=/usr/local/lib'))
+> remotes::install_github("gaborcsardi/parsedate@f2da982")
 > devtools::install_github("JGCRI/rgcam")
 > devtools::install_github("JGCRI/rmap")
 
@@ -640,6 +640,7 @@ $ sudo -i R
 # 1. hdf4  (installed above)
 
 # 2. HDF-EOS2
+mkdir -p cd $HOME/wrfpoc/zen3/Build_WRF/VPRM
 cd $HOME/wrfpoc/zen3/Build_WRF/VPRM
 curl -o HDF-EOS2.20v1.00.tar.Z https://git.earthdata.nasa.gov/rest/git-lfs/storage/DAS/hdfeos/cb0f900d2732ab01e51284d6c9e90d0e852d61bba9bce3b43af0430ab5414903?response-content-disposition=attachment%3B%20filename%3D%22HDF-EOS2.20v1.00.tar.Z%22%3B%20filename*%3Dutf-8%27%27HDF-EOS2.20v1.00.tar.Z
 tar zxvf HDF-EOS2.20v1.00.tar.Z
