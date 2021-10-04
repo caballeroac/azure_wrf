@@ -765,6 +765,9 @@ Now run `./LDOPE_Linux_install.sh` and provide the path for HDF4: in this case `
 
 ```
 # MODIS MRT (provided in tar file)
+cp ~/model-package/VPRM/MRT_32bit_i386_static_patched.tar.bz2 .
+bunzip2 MRT_32bit_i386_static_patched.tar.bz2
+tar xvf  MRT_32bit_i386_static_patched.tar
 cd $HOME/wrfpoc/zen3/Build_WRF/VPRM/MRT_32bit_i386_static_patched
 sh install
 
