@@ -382,7 +382,7 @@ WRF_V3.9.1
 # BUILDING WRF_V3.9.1  
 # Upload Model PAckage.zip to the server and uncompres. Then copy file WRFV3.9.1.tar.gz
 $ cd $HOME/wrfpoc/zen3/Build_WRF
-$ cp {your_location}/WRFV3.9.1.tar.gz 
+$ cp ~/model-package/WRF-Chem/WRFV3.9.1.tar.gz .
 $ tar zxvf WRFV3.9.1.tar.gz
 $ cd $HOME/wrfpoc/zen3/Build_WRF/WRFV3
 $ ./clean -a
