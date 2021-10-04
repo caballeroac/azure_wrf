@@ -806,6 +806,11 @@ vi ./RSources/gridEurope.r
 
 #### 2.4 MOZBC #####
 ```
+$ cd $HOME/wrfpoc/zen3/Build_WRF
+$ cp ~/model-package/mozbc/mozbc.tar.gz .
+$ tar zxvf mozbc.tar.gz
+
+
 $ cd $HOME/wrfpoc/zen3/Build_WRF/mozbc
 $ export NETCDF_DIR=$NETCDF
 $ cp ${NETCDF}/include/netcdf.inc .
