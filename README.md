@@ -260,7 +260,8 @@ tar zxvf netcdf-4.1.3.tar.gz
 cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES/netcdf-4.1.3
 export LDFLAGS="-L$DIR/zlib/lib -L$DIR/jpeg/lib"
 export CPFLAGS="-I$DIR/zlib/include -I$DIR/jpeg/include"
-./configure --prefix=$DIR/netcdf --disable-dap --disable-netcdf-4 --disable-shared  # Check if this should be with shared libraries
+./configure --prefix=$DIR/netcdf --disable-dap --disable-netcdf-4    
+# ./configure --prefix=$DIR/netcdf --disable-dap --disable-netcdf-4 --disable-shared  # Check if this should be with shared libraries
 make
 make install
 
