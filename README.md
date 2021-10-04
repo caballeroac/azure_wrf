@@ -675,7 +675,7 @@ Appending installation info to /usr/lib64/perl5/perllocal.pod
 
 # SQLITE (Required by PROJ 7, sqlite3 >= 3.11' but version of SQLite is 3.7.17)
 cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES
-wget https://www.sqlite.org/2021/sqlite-autoconf-3360000.tar.gz
+wget https://www.sqlite.org/2021/sqlite-autoconf-3360000.tar.gz --no-check-certificate
 tar zxvf sqlite-autoconf-3360000.tar.gz
 cd sqlite-autoconf-3360000
 ./configure --prefix=$DIR/sqlite336
