@@ -791,8 +791,11 @@ NOTE: This section has not been fully tested as it requires some MODIS data to b
 ```
 # VPRRM PreProc 
 $ cd $HOME/wrfpoc/zen3/Build_WRF/VPRM
-wget https://www.bgc-jena.mpg.de/bgc-systems/uploads/Download/VPRMpreproc/VPRMpreproc_LCC_R99.tar.bz2
+mkdir VPRMpreproc_R99
 cd VPRMpreproc_R99
+wget https://www.bgc-jena.mpg.de/bgc-systems/uploads/Download/VPRMpreproc/VPRMpreproc_LCC_R99.tar.bz2
+bunzip2 VPRMpreproc_LCC_R99.tar.bz2
+tar xvf VPRMpreproc_LCC_R99.tar 
 vi config.r --> Replace the PATH to point to the right location 
 cp ./RSources/gridEurope.r.BAK ./RSources/gridEurope.r 
 vi ./RSources/gridEurope.r 
