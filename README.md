@@ -658,6 +658,8 @@ make install
 
 
 # Gctp
+sudo yum install perl-devel
+
 cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES
 wget https://cpan.metacpan.org/authors/id/D/DS/DSTAHLKE/Cartography-Projection-GCTP-0.03.tar.gz
 tar zxvf Cartography-Projection-GCTP-0.03.tar.gz
