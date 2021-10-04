@@ -696,7 +696,10 @@ cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES
 wget https://github.com/OSGeo/gdal/releases/download/v3.3.2/gdal-3.3.2.tar.gz
 tar zxvf gdal-3.3.2.tar.gz
 cd gdal-3.3.2
-./configure --prefix=$DIR/gdal 
+./configure --prefix=$DIR/gdal  --with-proj=$DIR/proj
+make
+make install
+
 ```
 
 Finally LDOPE TOOL
