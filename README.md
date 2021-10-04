@@ -691,7 +691,7 @@ cd proj-6.3.2/
 make
 make install
  
-# GDAL
+# GDAL     sudo yum install gdal
 cd $HOME/wrfpoc/zen3/Build_WRF/LIBRARIES
 wget https://github.com/OSGeo/gdal/releases/download/v3.3.2/gdal-3.3.2.tar.gz
 tar zxvf gdal-3.3.2.tar.gz
