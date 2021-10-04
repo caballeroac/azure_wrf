@@ -733,6 +733,8 @@ int isinusforinit_tmp(double sphere, double lon_cen_mer, double false_east,
                    double false_north, double dzone, double djustify);
 
 ```
+Also replace May need: modify `./src/str_op.h` and `./src/str_op.c`，change getline to getaline，Otherwise it conflicts with the system's stdio.h
+
 Now make the following changes in ./src/Makefile
 ```
 #LOC = /Net/Groups
