@@ -480,6 +480,7 @@ $ cd $HOME/wrfpoc/zen3/Build_WRF
 $ cp ~/model\ package/1.1\ WPS/WPSV3.9.1.TAR.gz . 
 $ tar zxvf WPSV3.9.1.TAR.gz
 $ cd $HOME/wrfpoc/zen3/Build_WRF/WPS
+$ MPI_LIB="" 
 $ ./configure
  1.  Linux x86_64, gfortran    (serial)
  2.  Linux x86_64, gfortran    (serial_NO_GRIB2)
@@ -502,6 +503,10 @@ CPP                 = cpp -P -traditional
 Now compile:
 ```
 $ ./compile 
+$ ls -l *.exe
+geogrid.exe -> geogrid/src/geogrid.exe
+metgrid.exe -> metgrid/src/metgrid.exe
+
 $ find ./ -name "*.exe"
 ./util/src/rd_intermediate.exe
 ./util/src/mod_levs.exe
