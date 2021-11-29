@@ -502,7 +502,7 @@ CPP                 = cpp -P -traditional
 ```
 Now compile:
 ```
-$ ./compile 
+$ ./compile  >& compile.log &
 $ ls -l *.exe
 geogrid.exe -> geogrid/src/geogrid.exe
 metgrid.exe -> metgrid/src/metgrid.exe
